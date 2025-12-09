@@ -1,0 +1,188 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\views\\tutor\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\views\\tutor\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\controllers\\tutorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\controllers\\tutorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\models\\role.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\tutorlinkapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\tutorlinkapp.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\models\\tutorlinkcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\models\\tutorlinkcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlinkapp\\projekt\\projekt\\tutorlinkapp\\tutorlinkapp\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 1,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedHeight": 400,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Views\\Tutor\\Index.cshtml",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Views\\Tutor\\Index.cshtml",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Views\\Tutor\\Index.cshtml",
+              "RelativeToolTip": "TutorLinkApp\\Views\\Tutor\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-08T18:39:57.106Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "TutorLinkApp.csproj",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\TutorLinkApp.csproj",
+              "RelativeDocumentMoniker": "TutorLinkApp\\TutorLinkApp.csproj",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\TutorLinkApp.csproj",
+              "RelativeToolTip": "TutorLinkApp\\TutorLinkApp.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-12-08T18:15:54.546Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TutorController.cs",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Controllers\\TutorController.cs",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Controllers\\TutorController.cs",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Controllers\\TutorController.cs",
+              "RelativeToolTip": "TutorLinkApp\\Controllers\\TutorController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAkwBMAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-08T18:09:47.469Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TutorLinkContext.cs",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Models\\TutorLinkContext.cs",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Models\\TutorLinkContext.cs",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Models\\TutorLinkContext.cs",
+              "RelativeToolTip": "TutorLinkApp\\Models\\TutorLinkContext.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAswDcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-08T18:14:46.869Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "TutorLinkApp\\appsettings.Development.json",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\appsettings.Development.json",
+              "RelativeToolTip": "TutorLinkApp\\appsettings.Development.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-08T17:44:11.074Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Role.cs",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Models\\Role.cs",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Models\\Role.cs",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Models\\Role.cs",
+              "RelativeToolTip": "TutorLinkApp\\Models\\Role.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-08T17:22:42.423Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Models\\User.cs",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Models\\User.cs",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Models\\User.cs",
+              "RelativeToolTip": "TutorLinkApp\\Models\\User.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-08T17:22:38.342Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Program.cs",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Program.cs",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Program.cs",
+              "RelativeToolTip": "TutorLinkApp\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-08T17:03:49.744Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "TutorLinkApp\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-08T16:38:20.007Z"
+            }
+          ]
+        },
+        {
+          "DockedHeight": 198,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\appsettings.json",
+              "RelativeDocumentMoniker": "TutorLinkApp\\appsettings.json",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\appsettings.json",
+              "RelativeToolTip": "TutorLinkApp\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAACJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-08T18:25:46.034Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

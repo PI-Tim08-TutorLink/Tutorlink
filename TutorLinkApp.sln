@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorLinkApp", "TutorLinkApp\TutorLinkApp.csproj", "{8F81C806-D271-4953-B567-18C523D6982B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F81C806-D271-4953-B567-18C523D6982B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F81C806-D271-4953-B567-18C523D6982B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F81C806-D271-4953-B567-18C523D6982B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F81C806-D271-4953-B567-18C523D6982B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
