@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zx3G828c6sg=",
+  "dgSpecHash": "oXWmEvDw3z0=",
   "success": true,
-  "projectFilePath": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\TutorLinkApp.csproj",
+  "projectFilePath": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\TutorLinkApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pazna\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\pazna\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

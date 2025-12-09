@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\TutorLinkApp.csproj": {}
+    "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\TutorLinkApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\TutorLinkApp.csproj": {
+    "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\TutorLinkApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\TutorLinkApp.csproj",
+        "projectUniqueName": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\TutorLinkApp.csproj",
         "projectName": "TutorLinkApp",
-        "projectPath": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\TutorLinkApp.csproj",
+        "projectPath": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\TutorLinkApp.csproj",
         "packagesPath": "C:\\Users\\pazna\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\TutorLinkApp\\Projekt\\Projekt\\TutorLinkApp\\TutorLinkApp\\obj\\",
+        "outputPath": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
