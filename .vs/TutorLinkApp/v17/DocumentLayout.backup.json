@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlink\\tutorlinkapp\\controllers\\tutorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\controllers\\tutorcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlink\\tutorlinkapp\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\controllers\\accountcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlink\\tutorlinkapp\\services\\implementations\\adminservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\services\\implementations\\adminservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlink\\tutorlinkapp\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlink\\tutorlinkapp\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\views\\admin\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|c:\\users\\pazna\\documents\\faks\\5. semestar\\pi\\tutorlink\\tutorlinkapp\\services\\interfaces\\iadminservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8F81C806-D271-4953-B567-18C523D6982B}|TutorLinkApp\\TutorLinkApp.csproj|solutionrelative:tutorlinkapp\\services\\interfaces\\iadminservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -25,59 +21,46 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedHeight": 400,
-          "SelectedChildIndex": 0,
+          "DockedHeight": 200,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TutorController.cs",
-              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Controllers\\TutorController.cs",
-              "RelativeDocumentMoniker": "TutorLinkApp\\Controllers\\TutorController.cs",
-              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Controllers\\TutorController.cs",
-              "RelativeToolTip": "TutorLinkApp\\Controllers\\TutorController.cs",
-              "ViewState": "AgIAAKEAAAAAAAAAAAAIwMoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T23:27:53.822Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Dashboard.cshtml",
-              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Views\\Admin\\Dashboard.cshtml",
-              "RelativeDocumentMoniker": "TutorLinkApp\\Views\\Admin\\Dashboard.cshtml",
-              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Views\\Admin\\Dashboard.cshtml",
-              "RelativeToolTip": "TutorLinkApp\\Views\\Admin\\Dashboard.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-12-09T23:20:24.448Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "AdminController.cs",
               "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "TutorLinkApp\\Controllers\\AdminController.cs",
               "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Controllers\\AdminController.cs",
               "RelativeToolTip": "TutorLinkApp\\Controllers\\AdminController.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAkwBkAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T23:20:05.119Z",
+              "WhenOpened": "2025-12-15T03:02:51.171Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AccountController.cs",
-              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Controllers\\AccountController.cs",
-              "RelativeDocumentMoniker": "TutorLinkApp\\Controllers\\AccountController.cs",
-              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Controllers\\AccountController.cs",
-              "RelativeToolTip": "TutorLinkApp\\Controllers\\AccountController.cs",
-              "ViewState": "AgIAADwAAAAAAAAAAAAkwFkAAAAJAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "AdminServices.cs",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Services\\Implementations\\AdminServices.cs",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Services\\Implementations\\AdminServices.cs",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Services\\Implementations\\AdminServices.cs",
+              "RelativeToolTip": "TutorLinkApp\\Services\\Implementations\\AdminServices.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-09T23:03:46.977Z",
+              "WhenOpened": "2025-12-15T03:02:39.553Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IAdminServices.cs",
+              "DocumentMoniker": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Services\\Interfaces\\IAdminServices.cs",
+              "RelativeDocumentMoniker": "TutorLinkApp\\Services\\Interfaces\\IAdminServices.cs",
+              "ToolTip": "C:\\Users\\pazna\\Documents\\Faks\\5. semestar\\PI\\Tutorlink\\TutorLinkApp\\Services\\Interfaces\\IAdminServices.cs",
+              "RelativeToolTip": "TutorLinkApp\\Services\\Interfaces\\IAdminServices.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T03:02:23.958Z",
               "EditorCaption": ""
             }
           ]

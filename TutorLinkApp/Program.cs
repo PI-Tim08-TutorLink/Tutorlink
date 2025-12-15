@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TutorLinkApp.Models;
+using TutorLinkApp.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,12 @@ builder.Services.AddControllersWithViews();
 // Add DbContext
 builder.Services.AddDbContext<TutorLinkContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Register your services (DI for SOLID setup)
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<ISessionManager, SessionManager>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 // Add Session support
 builder.Services.AddDistributedMemoryCache();
