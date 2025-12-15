@@ -1,72 +1,61 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to TutorLink</h1>
-    <p class="lead">Connect with expert tutors and enhance your learning experience</p>
-</div>
 
-<div class="row mt-5">
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5 class="card-title">Find a Tutor</h5>
-                <p class="card-text">Browse our database of qualified tutors and find the perfect match for your learning needs.</p>
-                <a asp-controller="Tutor" asp-action="Index" class="btn btn-primary">Browse Tutors</a>
-            </div>
+<section class="row align-items-center mb-5">
+    <div class="col-md-6">
+        <h1 class="display-5 fw-bold">Find the right tutor for your success</h1>
+        <p class="lead text-muted mt-3">
+            TutorLink connects students with verified tutors across various subjects.
+            Learn faster, smarter and with confidence.
+        </p>
+        <div class="mt-4">
+            <a asp-controller="Tutor" asp-action="Index" class="btn btn-primary btn-lg me-2">Browse Tutors</a>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-outline-secondary btn-lg">Get Started</a>
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5 class="card-title">Become a Tutor</h5>
-                <p class="card-text">Share your knowledge and help students achieve their academic goals.</p>
-                <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register as Tutor</a>
-            </div>
-        </div>
+    <div class="col-md-6 text-center">
+        <img src="https://images.unsplash.com/photo-1673515335586-f9f662c01482?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+             class="img-fluid rounded shadow"
+             alt="Tutor helping student" />
     </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body text-center">
-                <h5 class="card-title">Join as Student</h5>
-                <p class="card-text">Create your account and start your learning journey today.</p>
-                <a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register as Student</a>
-            </div>
-        </div>
-    </div>
-</div>
+</section>
 
-<div class="row mt-5">
-    <div class="col-12">
-        <h2 class="text-center mb-4">How It Works</h2>
-    </div>
-    <div class="col-md-3 text-center">
-        <div class="mb-3">
-            <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">1</span>
+
+<section class="row text-center mb-5">
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="fw-bold">Find a Tutor</h5>
+                <p class="text-muted">Search tutors by skill, experience and availability.</p>
+            </div>
         </div>
-        <h5>Create Account</h5>
-        <p>Sign up as a student or tutor</p>
     </div>
-    <div class="col-md-3 text-center">
-        <div class="mb-3">
-            <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">2</span>
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="fw-bold">Become a Tutor</h5>
+                <p class="text-muted">Share your expertise and earn by helping others succeed.</p>
+            </div>
         </div>
-        <h5>Browse Tutors</h5>
-        <p>Find tutors with the skills you need</p>
     </div>
-    <div class="col-md-3 text-center">
-        <div class="mb-3">
-            <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">3</span>
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="fw-bold">Learn Effectively</h5>
+                <p class="text-muted">Personalized learning tailored to your goals.</p>
+            </div>
         </div>
-        <h5>Connect</h5>
-        <p>Reach out to your chosen tutor</p>
     </div>
-    <div class="col-md-3 text-center">
-        <div class="mb-3">
-            <span class="badge bg-primary rounded-circle p-3" style="font-size: 1.5rem;">4</span>
-        </div>
-        <h5>Start Learning</h5>
-        <p>Begin your educational journey</p>
-    </div>
-</div>
+</section>
+
+
+<section class="bg-white p-5 rounded shadow-sm">
+    <h2 class="fw-bold mb-3 text-center">About TutorLink</h2>
+    <p class="text-muted text-center mx-auto" style="max-width: 800px;">
+        TutorLink was created to simplify the process of connecting students with high‑quality tutors.
+        Whether you're preparing for exams, learning a new skill, or teaching others what you love,
+        TutorLink provides a secure and user‑friendly platform to support your journey.
+    </p>
+</section>

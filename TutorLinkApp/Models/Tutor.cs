@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace TutorLinkApp.Models;
+﻿namespace TutorLinkApp.Models;
 
 public partial class Tutor
 {
