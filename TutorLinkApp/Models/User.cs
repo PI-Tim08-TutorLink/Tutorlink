@@ -1,4 +1,7 @@
-﻿namespace TutorLinkApp.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace TutorLinkApp.Models;
 
 public partial class User
 {
@@ -21,6 +24,8 @@ public partial class User
     public string PwdSalt { get; set; } = null!;
 
     public int RoleId { get; set; }
+
+    public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<Tutor> Tutors { get; set; } = new List<Tutor>();
 }

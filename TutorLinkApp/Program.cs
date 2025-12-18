@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TutorLinkApp.Models;
 using TutorLinkApp.Services.Implementations;
+using TutorLinkApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ITutorService, TutorService>();
 
 // Add Session support
 builder.Services.AddDistributedMemoryCache();

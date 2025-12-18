@@ -1,15 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TutorLinkApp.Models;
+using TutorLinkApp.Services.Interfaces;
 
 namespace TutorLinkApp.Controllers
 {
     public class TutorController : Controller
     {
-        private readonly TutorLinkContext _context;
-        public TutorController(TutorLinkContext context)
+        private readonly ITutorService _tutorService;
+        private readonly ISessionManager _sessionManager;
+
+        public TutorController(ITutorService tutorService, ISessionManager sessionManager)
         {
-            _context = context;
+            _tutorService = tutorService;
+            _sessionManager = sessionManager;
+        }
+
+        public async Task<IActionResult> Index(TutorSearchViewModel filters)
+        {
+            var result = await _tutorService.SearchTutors(filters);
+            return View(result);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var tutor = await _tutorService.GetTutorDetails(id);
+
+            if (tutor == null)
+            {
+                TempData["ErrorMessage"] = "Tutor not found.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(tutor);
         }
 
         // Helper method: check if user is logged in
@@ -24,31 +47,6 @@ namespace TutorLinkApp.Controllers
             return HttpContext.Session.GetString("UserRole") == "Admin";
         }
 
-        // GET: Tutor
-        public async Task<IActionResult> Index()
-        {
-            // Everyone can see tutors
-            var tutors = await _context.Tutors
-                .Include(t => t.User)
-                .Where(t => t.DeletedAt == null)
-                .ToListAsync();
-
-            return View(tutors);
-        }
-
-        // GET: Tutor/Details/5
-        public async Task<IActionResult> Details(int id)
-        {
-            var tutor = await _context.Tutors
-                .Include(t => t.User)
-                .FirstOrDefaultAsync(t => t.Id == id && t.DeletedAt == null);
-
-            if (tutor == null)
-                return NotFound();
-
-            return View(tutor);
-        }
-
         // GET: Tutor/Create
         public IActionResult Create()
         {
@@ -61,141 +59,141 @@ namespace TutorLinkApp.Controllers
             return View();
         }
 
-        // POST: Tutor/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Tutor model)
-        {
-            if (!IsLoggedIn())
-            {
-                TempData["ErrorMessage"] = "You must be logged in to create a tutor profile.";
-                return RedirectToAction("Login", "Account");
-            }
+        //// POST: Tutor/Create
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create(Tutor model)
+        //{
+        //    if (!IsLoggedIn())
+        //    {
+        //        TempData["ErrorMessage"] = "You must be logged in to create a tutor profile.";
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                model.UserId = HttpContext.Session.GetInt32("UserId").Value;
-                model.CreatedAt = DateTime.Now;
+        //    if (ModelState.IsValid)
+        //    {
+        //        model.UserId = HttpContext.Session.GetInt32("UserId").Value;
+        //        model.CreatedAt = DateTime.Now;
 
-                _context.Tutors.Add(model);
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Tutor profile created successfully!";
-                return RedirectToAction(nameof(Index));
-            }
+        //        _context.Tutors.Add(model);
+        //        await _context.SaveChangesAsync();
+        //        TempData["SuccessMessage"] = "Tutor profile created successfully!";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
-        // GET: Tutor/Edit/5
-        public async Task<IActionResult> Edit(int id)
-        {
-            if (!IsLoggedIn())
-            {
-                TempData["ErrorMessage"] = "You must be logged in to edit a tutor profile.";
-                return RedirectToAction("Login", "Account");
-            }
+        //// GET: Tutor/Edit/5
+        //public async Task<IActionResult> Edit(int id)
+        //{
+        //    if (!IsLoggedIn())
+        //    {
+        //        TempData["ErrorMessage"] = "You must be logged in to edit a tutor profile.";
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            var tutor = await _context.Tutors.FindAsync(id);
-            if (tutor == null)
-                return NotFound();
+        //    var tutor = await _context.Tutors.FindAsync(id);
+        //    if (tutor == null)
+        //        return NotFound();
 
-            // Optional: allow only owner or admin to edit
-            if (tutor.UserId != HttpContext.Session.GetInt32("UserId") && !IsAdmin())
-            {
-                TempData["ErrorMessage"] = "Access denied.";
-                return RedirectToAction(nameof(Index));
-            }
+        //    // Optional: allow only owner or admin to edit
+        //    if (tutor.UserId != HttpContext.Session.GetInt32("UserId") && !IsAdmin())
+        //    {
+        //        TempData["ErrorMessage"] = "Access denied.";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            return View(tutor);
-        }
+        //    return View(tutor);
+        //}
 
-        // POST: Tutor/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Tutor model)
-        {
-            if (!IsLoggedIn())
-            {
-                TempData["ErrorMessage"] = "You must be logged in to edit a tutor profile.";
-                return RedirectToAction("Login", "Account");
-            }
+        //// POST: Tutor/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, Tutor model)
+        //{
+        //    if (!IsLoggedIn())
+        //    {
+        //        TempData["ErrorMessage"] = "You must be logged in to edit a tutor profile.";
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            if (id != model.Id)
-                return NotFound();
+        //    if (id != model.Id)
+        //        return NotFound();
 
-            var tutor = await _context.Tutors.FindAsync(id);
-            if (tutor == null)
-                return NotFound();
+        //    var tutor = await _context.Tutors.FindAsync(id);
+        //    if (tutor == null)
+        //        return NotFound();
 
-            if (tutor.UserId != HttpContext.Session.GetInt32("UserId") && !IsAdmin())
-            {
-                TempData["ErrorMessage"] = "Access denied.";
-                return RedirectToAction(nameof(Index));
-            }
+        //    if (tutor.UserId != HttpContext.Session.GetInt32("UserId") && !IsAdmin())
+        //    {
+        //        TempData["ErrorMessage"] = "Access denied.";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                tutor.Skill = model.Skill;
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Tutor profile updated successfully!";
-                return RedirectToAction(nameof(Index));
-            }
+        //    if (ModelState.IsValid)
+        //    {
+        //        tutor.Skill = model.Skill;
+        //        await _context.SaveChangesAsync();
+        //        TempData["SuccessMessage"] = "Tutor profile updated successfully!";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
-        // GET: Tutor/Delete/5
-        public async Task<IActionResult> Delete(int id)
-        {
-            if (!IsLoggedIn())
-            {
-                TempData["ErrorMessage"] = "You must be logged in to delete a tutor profile.";
-                return RedirectToAction("Login", "Account");
-            }
+        //// GET: Tutor/Delete/5
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    if (!IsLoggedIn())
+        //    {
+        //        TempData["ErrorMessage"] = "You must be logged in to delete a tutor profile.";
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            var tutor = await _context.Tutors
-                .Include(t => t.User)
-                .FirstOrDefaultAsync(t => t.Id == id && t.DeletedAt == null);
+        //    var tutor = await _context.Tutors
+        //        .Include(t => t.User)
+        //        .FirstOrDefaultAsync(t => t.Id == id && t.DeletedAt == null);
 
-            if (tutor == null)
-                return NotFound();
+        //    if (tutor == null)
+        //        return NotFound();
 
-            if (tutor.UserId != HttpContext.Session.GetInt32("UserId") && !IsAdmin())
-            {
-                TempData["ErrorMessage"] = "Access denied.";
-                return RedirectToAction(nameof(Index));
-            }
+        //    if (tutor.UserId != HttpContext.Session.GetInt32("UserId") && !IsAdmin())
+        //    {
+        //        TempData["ErrorMessage"] = "Access denied.";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            return View(tutor);
-        }
+        //    return View(tutor);
+        //}
 
-        // POST: Tutor/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (!IsLoggedIn())
-            {
-                TempData["ErrorMessage"] = "You must be logged in to delete a tutor profile.";
-                return RedirectToAction("Login", "Account");
-            }
+        //// POST: Tutor/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (!IsLoggedIn())
+        //    {
+        //        TempData["ErrorMessage"] = "You must be logged in to delete a tutor profile.";
+        //        return RedirectToAction("Login", "Account");
+        //    }
 
-            var tutor = await _context.Tutors.FindAsync(id);
-            if (tutor == null)
-                return NotFound();
+        //    var tutor = await _context.Tutors.FindAsync(id);
+        //    if (tutor == null)
+        //        return NotFound();
 
-            if (tutor.UserId != HttpContext.Session.GetInt32("UserId") && !IsAdmin())
-            {
-                TempData["ErrorMessage"] = "Access denied.";
-                return RedirectToAction(nameof(Index));
-            }
+        //    if (tutor.UserId != HttpContext.Session.GetInt32("UserId") && !IsAdmin())
+        //    {
+        //        TempData["ErrorMessage"] = "Access denied.";
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            // Soft delete
-            tutor.DeletedAt = DateTime.Now;
-            await _context.SaveChangesAsync();
+        //    // Soft delete
+        //    tutor.DeletedAt = DateTime.Now;
+        //    await _context.SaveChangesAsync();
 
-            TempData["SuccessMessage"] = "Tutor profile deleted successfully!";
-            return RedirectToAction(nameof(Index));
-        }
+        //    TempData["SuccessMessage"] = "Tutor profile deleted successfully!";
+        //    return RedirectToAction(nameof(Index));
+        //}
     }
 }
