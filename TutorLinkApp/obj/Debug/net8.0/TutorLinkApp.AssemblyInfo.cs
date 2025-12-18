@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TutorLinkApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c452832049c4ddc27ec7b95b7443c537df38b0d1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f74c00065dd14cae8e525bc324c19b637200fbbd")]
 [assembly: System.Reflection.AssemblyProductAttribute("TutorLinkApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TutorLinkApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
