@@ -38,11 +38,25 @@ CREATE TABLE [dbo].[Tutor] (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     UserId INT NOT NULL,
     Skill NVARCHAR(255) NOT NULL,
+
+    HourlyRate DECIMAL(10,2) NULL,
+    AverageRating DECIMAL(3,2) NULL,
+    TotalReviews INT NOT NULL DEFAULT 0,
+    Bio NVARCHAR(1000) NULL,
+    Availability NVARCHAR(500) NULL,
+
     CreatedAt DATETIME NOT NULL,
     DeletedAt DATETIME NULL,
-    CONSTRAINT FK_Tutor_User FOREIGN KEY (UserId) REFERENCES [dbo].[User](Id)
+
+    CONSTRAINT FK_Tutor_User 
+        FOREIGN KEY (UserId) REFERENCES [dbo].[User](Id),
+
+    CONSTRAINT CK_Tutor_Rating 
+        CHECK (AverageRating >= 0 AND AverageRating <= 5),
+
+    CONSTRAINT CK_Tutor_HourlyRate 
+        CHECK (HourlyRate > 0)
 );
----------------------------------------------------------
 
 ---------------------------------------------------------
 -- Insert Roles
@@ -81,13 +95,29 @@ VALUES
 );
 
 ---------------------------------------------------------
--- Insert Tutor Row for Tutor User
+-- Insert Tutor Row
 ---------------------------------------------------------
-DECLARE @TutorUserId INT = (SELECT Id FROM [dbo].[User] WHERE Email = 'tutor@tutor.com');
+DECLARE @TutorUserId INT =
+(
+    SELECT Id FROM [dbo].[User] WHERE Email = 'tutor@tutor.com'
+);
 
 IF @TutorUserId IS NOT NULL
 BEGIN
-    INSERT INTO [dbo].[Tutor] (UserId, Skill, CreatedAt, DeletedAt)
-    VALUES (@TutorUserId, 'Mathematics, Physics, Programming', GETDATE(), NULL);
+    INSERT INTO [dbo].[Tutor] (
+        UserId, Skill, HourlyRate, AverageRating, TotalReviews,
+        Bio, Availability, CreatedAt, DeletedAt
+    )
+    VALUES (
+        @TutorUserId,
+        'Mathematics, Physics, Programming',
+        25.00,
+        4.5,
+        10,
+        'Experienced tutor with 5+ years of teaching.',
+        'Mon-Fri 16:00-20:00',
+        GETDATE(),
+        NULL
+    );
 END
 GO
