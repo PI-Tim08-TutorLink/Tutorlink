@@ -1,3 +1,12 @@
+# build outputs
+**/bin/
+**/obj/
+
+# user secrets / local settings
+**/appsettings.Development.json
+**/appsettings.json
+
+# VS
 .vs/
-bin/
-obj/
+*.user
+*.suo
