@@ -1,50 +1,105 @@
-﻿@model IEnumerable<TutorLinkApp.Models.Tutor>
+﻿@model TutorLinkApp.Models.TutorSearchViewModel
 
 @{
     ViewData["Title"] = "Tutors";
 }
 
-<h1>Tutors</h1>
+<h2 class="mb-4">Tutors</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Skill)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DeletedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.User)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Skill)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DeletedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
 }
-    </tbody>
-</table>
+
+<!-- Filter / Search form -->
+<form method="get" asp-action="Index" class="mb-4">
+    <div class="row g-2">
+
+        <!-- Skill -->
+        <div class="col-md-3">
+            <label for="SearchSkill" class="form-label">Skill</label>
+            @Html.DropDownListFor(m => m.SearchSkill,
+                     new SelectList(Model.AvailableSkills, Model.SearchSkill),
+                     "All skills",
+                     new { @class = "form-select" })
+        </div>
+
+        <!-- Min Price -->
+        <div class="col-md-2">
+            <label for="MinPrice" class="form-label">Min Price (€)</label>
+            <input type="number" step="0.01" min="0" id="MinPrice" name="MinPrice" value="@(Model.MinPrice?.ToString() ?? "")" class="form-control" placeholder="Min price" />
+        </div>
+
+        <!-- Max Price -->
+        <div class="col-md-2">
+            <label for="MaxPrice" class="form-label">Max Price (€)</label>
+            <input type="number" step="0.01" min="0" id="MaxPrice" name="MaxPrice" value="@(Model.MaxPrice?.ToString() ?? "")" class="form-control" placeholder="Max price" />
+        </div>
+
+        <!-- Min Rating -->
+        <div class="col-md-2">
+            <label for="MinRating" class="form-label">Min Rating</label>
+            <input type="number" step="0.1" min="0" max="5" id="MinRating" name="MinRating" value="@(Model.MinRating?.ToString() ?? "")" class="form-control" placeholder="Min rating" />
+        </div>
+
+        <!-- Sort By -->
+        <div class="col-md-3">
+            <label for="SortBy" class="form-label">Sort by</label>
+            @Html.DropDownListFor(
+                     m => m.SortBy,
+                     new List<SelectListItem>
+            {
+            new SelectListItem { Text = "Rating", Value = "rating" },
+            new SelectListItem { Text = "Price: Low → High", Value = "price_asc" },
+            new SelectListItem { Text = "Price: High → Low", Value = "price_desc" },
+            new SelectListItem { Text = "Newest", Value = "newest" }
+            },
+                     "Select",
+                     new { @class = "form-select", id = "SortBy" }
+                     )
+        </div>
+
+        <div class="col-md-12 mt-2">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
+@if (Model.Tutors == null || !Model.Tutors.Any())
+{
+    <div class="alert alert-info mt-3">No tutors found.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var tutor in Model.Tutors)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@tutor.FullName (@tutor.Username)</h5>
+                        <p class="card-text">
+                            <strong>Email:</strong> @tutor.Email <br />
+                            <strong>Skills:</strong> @(tutor.Skills.Count > 0 ? string.Join(", ", tutor.Skills) : "N/A") <br />
+                            <strong>Hourly rate:</strong> @(tutor.HourlyRate.HasValue ? tutor.HourlyRate + " €" : "N/A") <br />
+                            <strong>Rating:</strong> @(tutor.AverageRating.HasValue ? tutor.AverageRating + "/5" : "No reviews") <br />
+                            <strong>Total reviews:</strong> @tutor.TotalReviews
+                        </p>
+
+                        @if (!string.IsNullOrEmpty(tutor.Bio))
+                        {
+                            <p><strong>Bio:</strong> @tutor.Bio</p>
+                        }
+
+                        @if (!string.IsNullOrEmpty(tutor.Availability))
+                        {
+                            <p><strong>Availability:</strong> @tutor.Availability</p>
+                        }
+
+                        <a asp-action="Details" asp-route-id="@tutor.Id" class="btn btn-primary btn-sm">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

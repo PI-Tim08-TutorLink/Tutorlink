@@ -1,0 +1,31 @@
+﻿@model TutorLinkApp.Models.TutorCardViewModel
+
+@{
+    ViewData["Title"] = "Tutor Details";
+}
+
+<h2 class="mb-4">Tutor Details</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h4>@Model.FullName (@Model.Username)</h4>
+        <p class="text-muted">@Model.Email</p>
+        <hr />
+        <p><strong>Skills:</strong> @(Model.Skills.Count > 0 ? string.Join(", ", Model.Skills) : "N/A")</p>
+        <p><strong>Hourly rate:</strong> @(Model.HourlyRate.HasValue ? Model.HourlyRate + " €" : "Not specified")</p>
+        <p><strong>Average rating:</strong> @(Model.AverageRating.HasValue ? Model.AverageRating + "/5" : "No reviews")</p>
+        <p><strong>Total reviews:</strong> @Model.TotalReviews</p>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Bio))
+        {
+            <p><strong>Bio:</strong><br />@Model.Bio</p>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(Model.Availability))
+        {
+            <p><strong>Availability:</strong><br />@Model.Availability</p>
+        }
+
+        <a asp-action="Index" class="btn btn-secondary mt-3">Back to list</a>
+    </div>
+</div>
