@@ -2,6 +2,7 @@
 using TutorLinkApp.Models;
 using TutorLinkApp.Services.Implementations;
 using TutorLinkApp.Services.Interfaces;
+using ILogger = TutorLinkApp.Services.Interfaces.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<TutorLinkContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddSingleton<ILogger>(AppLogger.GetInstance());
+
 // Register your services (DI for SOLID setup)
 builder.Services.AddScoped<IUserService, UserService>();
 //builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -20,7 +23,15 @@ builder.Services.AddScoped<IAdminStatsService, AdminStatsService>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
 //builder.Services.AddScoped<IAdminUserCreationService, AdminUserCreationService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<ITutorService, TutorService>();
+builder.Services.AddScoped<TutorService>();
+
+builder.Services.AddScoped<ITutorService>(provider =>
+
+    new LoggingTutorServiceDecorator(
+        provider.GetRequiredService<TutorService>(),
+        provider.GetRequiredService<ILogger>()
+    )
+);
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IAdminUserCreationService, AdminUserCreationService>();
