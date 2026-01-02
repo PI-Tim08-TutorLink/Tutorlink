@@ -1,16 +1,29 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TutorLinkApp.Models;
 using TutorLinkApp.Services.Interfaces;
+using ILogger = TutorLinkApp.Services.Interfaces.ILogger;
 
 namespace TutorLinkApp.Services.Implementations
 {
     public class TutorService : ITutorService
     {
-        
+        ILogger logger = AppLogger.GetInstance();
         private readonly TutorLinkContext _context;
         public TutorService(TutorLinkContext context)
         {
             _context = context;
+        }
+
+        private ITutorSortStrategy GetSortStrategy(string sortBy)
+        {
+            return sortBy switch
+            {
+                "rating" => new SortByRatingStrategy(),
+                "price_asc" => new SortByPriceAscStrategy(),
+                "price_desc" => new SortByPriceDescStrategy(),
+                "newest" => new SortByNewestStrategy(),
+                _ => new SortByRatingStrategy(), // Default: best rated first
+            };
         }
 
         public async Task<TutorSearchViewModel> SearchTutors(TutorSearchViewModel filters)
@@ -40,15 +53,8 @@ namespace TutorLinkApp.Services.Implementations
                     t.AverageRating >= filters.MinRating.Value);
             }
 
-            query = filters.SortBy switch
-            {
-                "rating" => query.OrderByDescending(t => t.AverageRating ?? 0)
-                                 .ThenByDescending(t => t.TotalReviews),
-                "price_asc" => query.OrderBy(t => t.HourlyRate ?? decimal.MaxValue),
-                "price_desc" => query.OrderByDescending(t => t.HourlyRate ?? 0),
-                "newest" => query.OrderByDescending(t => t.CreatedAt),
-                _ => query.OrderByDescending(t => t.AverageRating ?? 0) // Default: best rated first
-            };
+            var sortStrategy = GetSortStrategy(filters.SortBy ?? "");
+            query = sortStrategy.ApplySort(query);
 
             var tutors = await query.ToListAsync();
 
@@ -86,6 +92,8 @@ namespace TutorLinkApp.Services.Implementations
                 .Where(t => t.DeletedAt == null && !string.IsNullOrEmpty(t.Skill))
                 .Select(t => t.Skill)
                 .ToListAsync();
+
+            logger.LogInfo("All skills fetched for filtering tutors.");
 
             return allSkills
                 .SelectMany(s => s.Split(',', StringSplitOptions.RemoveEmptyEntries))

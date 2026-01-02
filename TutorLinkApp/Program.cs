@@ -3,6 +3,7 @@ using TutorLinkApp.Models;
 using TutorLinkApp.Services.Email;
 using TutorLinkApp.Services.Implementations;
 using TutorLinkApp.Services.Interfaces;
+using ILogger = TutorLinkApp.Services.Interfaces.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Services.AddDbContext<TutorLinkContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // User-related
+builder.Services.AddSingleton<ILogger>(AppLogger.GetInstance());
+
+// Register your services (DI for SOLID setup)
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
@@ -24,6 +28,15 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 
 // Tutor-related
 builder.Services.AddScoped<ITutorService, TutorService>();
+builder.Services.AddScoped<TutorService>();
+
+builder.Services.AddScoped<ITutorService>(provider =>
+
+    new LoggingTutorServiceDecorator(
+        provider.GetRequiredService<TutorService>(),
+        provider.GetRequiredService<ILogger>()
+    )
+);
 
 // Email-related
 builder.Services.AddScoped<FakeEmailSender>();
