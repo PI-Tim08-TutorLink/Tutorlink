@@ -28,4 +28,8 @@ public partial class User
     public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<Tutor> Tutors { get; set; } = new List<Tutor>();
+
+    public string? ResetToken { get; set; }
+    public DateTime? ResetTokenExpiry { get; set; }
+
 }

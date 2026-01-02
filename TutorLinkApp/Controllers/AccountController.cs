@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using TutorLinkApp.DTO;
 using TutorLinkApp.Models;
 using TutorLinkApp.Services.Implementations;
+using TutorLinkApp.VM;
 
 public class AccountController : Controller
 {
@@ -80,5 +82,58 @@ public class AccountController : Controller
         _sessionManager.ClearSession(HttpContext);
         TempData["SuccessMessage"] = "You have been logged out successfully.";
         return RedirectToAction("Login");
+    }
+
+    public IActionResult ForgotPassword() => View();
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ForgotPassword(
+        ForgotPasswordViewModel model,
+        [FromServices] ResetPasswordFacade facade)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var link = await facade.SendResetLink(
+            model.Email,
+            Url.Action("ResetPassword", "Account", null, Request.Scheme)!
+        );
+
+        if (link == null)
+        {
+            TempData["ErrorMessage"] = "Email address does not exist.";
+        }
+        else
+        {
+            TempData["SuccessMessage"] = "Reset link sent successfully.";
+            TempData["ResetLink"] = link;
+        }
+
+        return RedirectToAction("ForgotPassword");
+    }
+
+    public IActionResult ResetPassword(string token)
+    {
+        return View(new ResetPasswordViewModel { Token = token });
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ResetPassword(
+        ResetPasswordViewModel model,
+        [FromServices] ResetPasswordFacade facade)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var success = await facade.ResetPassword(model.Token, model.NewPassword);
+        if (success)
+        {
+            TempData["SuccessMessage"] = "Password reset successful!";
+            return RedirectToAction("Login");
+        }
+
+        ModelState.AddModelError("", "Invalid or expired token");
+        return View(model);
     }
 }

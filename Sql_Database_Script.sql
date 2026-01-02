@@ -21,14 +21,21 @@ CREATE TABLE [dbo].[User] (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     CreatedAt DATETIME NOT NULL,
     DeletedAt DATETIME NULL,
+
     Username NVARCHAR(50) NOT NULL UNIQUE,
     FirstName NVARCHAR(50) NOT NULL,
     LastName NVARCHAR(50) NOT NULL,
     Email NVARCHAR(100) NOT NULL UNIQUE,
+
     PwdHash NVARCHAR(200) NOT NULL,
     PwdSalt NVARCHAR(200) NOT NULL,
+
+    ResetToken NVARCHAR(200) NULL,
+    ResetTokenExpiry DATETIME NULL,
+
     RoleId INT NOT NULL,
-    CONSTRAINT FK_User_Role FOREIGN KEY (RoleId) REFERENCES [dbo].[Role](Id)
+    CONSTRAINT FK_User_Role 
+        FOREIGN KEY (RoleId) REFERENCES [dbo].[Role](Id)
 );
 
 ---------------------------------------------------------
@@ -68,8 +75,11 @@ VALUES ('Admin'), ('User'), ('Tutor');
 -- Insert Default Users (password = 'password')
 ---------------------------------------------------------
 INSERT INTO [dbo].[User] (
-    CreatedAt, DeletedAt, Username, FirstName, LastName, Email,
-    PwdHash, PwdSalt, RoleId
+    CreatedAt, DeletedAt,
+    Username, FirstName, LastName, Email,
+    PwdHash, PwdSalt,
+    ResetToken, ResetTokenExpiry,
+    RoleId
 )
 VALUES
 (
@@ -77,6 +87,7 @@ VALUES
     'admin', 'Admin', 'User', 'admin@admin.com',
     'mJCzV/5rj3TkTQj5NpBjFGsc8uc+q0/FwOdjxdhwors=',
     '/1QGdspvYx6YtLRHY+yISdnQvdLhACHHfVO/38o464o=',
+    NULL, NULL,
     1
 ),
 (
@@ -84,6 +95,7 @@ VALUES
     'tutor', 'Tutor', 'User', 'tutor@tutor.com',
     'y0a2GHK4lKgJSO85hlgYmIu0uWHhTKahPaRdAdzcynY=',
     'AE+AIWUI0gEHK6X/5l0T5bFFtNnoOh/d8cD2GiNkiZ8=',
+    NULL, NULL,
     3
 ),
 (
@@ -91,6 +103,7 @@ VALUES
     'user', 'User', 'User', 'user@user.com',
     'mTxtwI93yaultGJSaB/4GSELXvzHDsqRB/RATay6Mco=',
     'sLuOx2OTxxRQQpQr1SJN48dP2CfrxQRkUJ6nhAln5XI=',
+    NULL, NULL,
     2
 );
 
