@@ -1,32 +1,37 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TutorLinkApp.Models;
+using TutorLinkApp.Services.Email;
 using TutorLinkApp.Services.Implementations;
 using TutorLinkApp.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add DbContext
 builder.Services.AddDbContext<TutorLinkContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Register your services (DI for SOLID setup)
+// User-related
 builder.Services.AddScoped<IUserService, UserService>();
-//builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ISessionManager, SessionManager>();
+
+// Admin-related
 builder.Services.AddScoped<IAdminStatsService, AdminStatsService>();
 builder.Services.AddScoped<IUserManagementService, UserManagementService>();
-//builder.Services.AddScoped<IAdminUserCreationService, AdminUserCreationService>();
+builder.Services.AddScoped<IAdminUserCreationService, AdminUserCreationService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
+
+// Tutor-related
 builder.Services.AddScoped<ITutorService, TutorService>();
 
-builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
-builder.Services.AddScoped<IAdminUserCreationService, AdminUserCreationService>();
+// Email-related
+builder.Services.AddScoped<FakeEmailSender>();
+builder.Services.AddScoped<IEmailSender>(sp => EmailSenderFactory.Create(sp));
+builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ResetPasswordFacade>();
 
 
-// Add Session support
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -37,7 +42,6 @@ builder.Services.AddSession(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -49,7 +53,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// Enable Session
+
 app.UseSession();
 
 app.UseAuthorization();

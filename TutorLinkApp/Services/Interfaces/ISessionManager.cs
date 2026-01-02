@@ -1,4 +1,5 @@
-﻿using TutorLinkApp.DTO;
+﻿using Microsoft.AspNetCore.Http;
+using TutorLinkApp.DTO;
 
 public interface ISessionManager
 {
