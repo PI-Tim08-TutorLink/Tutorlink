@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35728.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorLinkApp", "TutorLinkApp\TutorLinkApp.csproj", "{8F81C806-D271-4953-B567-18C523D6982B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorLinkAppTest", "TutorLinkAppTest\TutorLinkAppTest.csproj", "{2DF52EF7-4253-4BDC-8987-EBBDD4D6E869}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +17,15 @@ Global
 		{8F81C806-D271-4953-B567-18C523D6982B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F81C806-D271-4953-B567-18C523D6982B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F81C806-D271-4953-B567-18C523D6982B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DF52EF7-4253-4BDC-8987-EBBDD4D6E869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DF52EF7-4253-4BDC-8987-EBBDD4D6E869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DF52EF7-4253-4BDC-8987-EBBDD4D6E869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DF52EF7-4253-4BDC-8987-EBBDD4D6E869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F93B00C-DF2A-408D-8ABC-B2227A6286CC}
 	EndGlobalSection
 EndGlobal

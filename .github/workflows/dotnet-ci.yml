@@ -1,0 +1,57 @@
+name: .NET CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  build-test-coverage:
+    name: Build, Test & Coverage
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+
+    - name: 🔧 Setup .NET 8.0
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: 📋 Display .NET info
+      run: dotnet --info
+
+    - name: 📦 Restore dependencies
+      run: dotnet restore
+
+    - name: 🔨 Build
+      run: dotnet build --no-restore --configuration Release
+
+    - name: 🧪 Run tests with coverage
+      run: |
+        dotnet test TutorLinkAppTest/TutorLinkAppTest.csproj \
+          --no-build \
+          --configuration Release \
+          --logger "trx;LogFileName=test-results.trx" \
+          /p:CollectCoverage=true \
+          /p:CoverletOutputFormat=cobertura \
+          /p:CoverletOutput=./TestResults/ \
+          /p:Exclude="[xunit.*]*"
+
+    - name: 📊 Generate coverage report
+      uses: danielpalme/ReportGenerator-GitHub-Action@5.3.10
+      with:
+        reports: 'TutorLinkAppTest/TestResults/coverage.cobertura.xml'
+        targetdir: 'CoverageReport'
+        reporttypes: 'Html;Badges;TextSummary'
+        verbosity: 'Info'
+
+    - name: 📈 Display coverage summary
+      run: |
+        if [ -f CoverageReport/Summary.txt ]; then
+          cat CoverageReport/Summary.txt
+        else
+          echo "Coverage summary not found"
+        fi
