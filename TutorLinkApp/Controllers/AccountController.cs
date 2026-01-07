@@ -40,7 +40,6 @@ public class AccountController : Controller
         TempData["SuccessMessage"] = "Registration successful! Please log in.";
         return RedirectToAction("Login");
     }
-
     public IActionResult Login()
     {
         _sessionManager.ClearSession(HttpContext);
@@ -90,7 +89,7 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> ForgotPassword(
         ForgotPasswordViewModel model,
-        [FromServices] ResetPasswordFacade facade)
+        [FromServices] IResetPasswordFacade facade)
     {
         if (!ModelState.IsValid)
             return View(model);
@@ -119,9 +118,10 @@ public class AccountController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ResetPassword(
         ResetPasswordViewModel model,
-        [FromServices] ResetPasswordFacade facade)
+        [FromServices] IResetPasswordFacade facade)
     {
         if (!ModelState.IsValid)
             return View(model);

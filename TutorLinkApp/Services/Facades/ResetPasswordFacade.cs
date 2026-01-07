@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
 using TutorLinkApp.Models;
 using TutorLinkApp.Services.Email;
+using TutorLinkApp.Services.Implementations;
 
-public class ResetPasswordFacade
+public class ResetPasswordFacade : IResetPasswordFacade
 {
     private readonly TutorLinkContext _context;
     private readonly IPasswordHasher _hasher;
