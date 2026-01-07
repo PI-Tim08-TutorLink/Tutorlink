@@ -33,8 +33,6 @@ namespace TutorLinkApp.Tests.Controllers
             return controller;
         }
 
-        // ========== INDEX ACTION TESTS ==========
-
         [Fact]
         public void Index_ReturnsViewResult()
         {
