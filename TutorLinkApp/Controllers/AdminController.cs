@@ -38,53 +38,12 @@ namespace TutorLinkApp.Controllers
             return View(users);
         }
 
-        /* public IActionResult CreateUser() => IsAdmin() ? View() : RedirectToHomeWithError();
-
-         [HttpPost]
-         [ValidateAntiForgeryToken]
-         public async Task<IActionResult> CreateUser(RegisterViewModel model)
-         {
-             if (!IsAdmin()) return RedirectToHomeWithError();
-
-             if (!ModelState.IsValid) return View(model);
-
-             await _adminService.CreateUser(model);
-             TempData["SuccessMessage"] = $"User {model.Username} created successfully!";
-             return RedirectToAction("Users");
-         }
-        */
-
         [HttpGet]
         public IActionResult CreateUser()
         {
             return View(new RegisterViewModel());
         }
 
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateUser(RegisterViewModel model, int roleId)
-        {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            try
-            {
-                // Ako si to izveo kroz facade IAdminService:
-                // await _adminService.CreateUser(model, roleId);
-
-                // Ako imaš direktno:
-                await _adminUserCreationService.CreateUser(model, roleId);
-
-                return RedirectToAction(nameof(Users));
-            }
-            catch (Exception ex)
-            {
-                // prikazi poruku na formi umjesto crasha
-                ModelState.AddModelError(string.Empty, ex.Message);
-                return View(model);
-            }
-        }
-        */
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateUser(RegisterViewModel model)
@@ -109,13 +68,11 @@ namespace TutorLinkApp.Controllers
             await _adminUserCreationService.CreateUser(model, roleId);
             return RedirectToAction(nameof(Users));
         }
+
         private IActionResult RedirectToHomeWithError()
         {
             TempData["ErrorMessage"] = "Access denied. Admin privileges required.";
             return RedirectToAction("Index", "Home");
         }
-
-        // Ostale metode (EditUser, DeleteUser) se mogu refaktorisati na isti način
     }
-
 }
