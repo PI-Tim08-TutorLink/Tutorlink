@@ -20,14 +20,12 @@ public class AdminUserCreationService : IAdminUserCreationService
         if (roleId != RoleIds.Admin && roleId != RoleIds.Student && roleId != RoleIds.Tutor)
             throw new InvalidOperationException("Invalid roleId.");
 
-        // 2) Unique email (only not deleted)
-        var emailExists = await _context.Users
-            .AnyAsync(u => u.Email == model.Email && u.DeletedAt == null);
+        Console.WriteLine(">>> CreateUser POST HIT");
+        Console.WriteLine($">>> Username={model.Username}, Email={model.Email}, roleId={roleId}");
+        var usernameTaken = await _context.Users.AnyAsync(u => u.Username == model.Username);
+        if (usernameTaken)
+            throw new InvalidOperationException("Username already exists.");
 
-        if (emailExists)
-            throw new InvalidOperationException("Email already exists.");
-
-        // 3) Hash & Salt
         var salt = _hasher.GenerateSalt();
         var hash = _hasher.Hash(model.Password, salt);
 
@@ -48,21 +46,8 @@ public class AdminUserCreationService : IAdminUserCreationService
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        // 5) If Tutor -> create Tutor profile
         if (roleId == RoleIds.Tutor)
         {
-            // Ako je Skills null/empty, možeš ili dopustiti prazno ili baciti grešku.
-            // Za tvoje testove: dopusti, ali spremi string.
-            var tutor = new Tutor
-            {
-                UserId = user.Id,
-                Skill = model.Skills ?? string.Empty,
-                CreatedAt = DateTime.UtcNow,
-                DeletedAt = null
-            };
-
-            _context.Tutors.Add(tutor);
-            await _context.SaveChangesAsync();
         }
     }
 }
