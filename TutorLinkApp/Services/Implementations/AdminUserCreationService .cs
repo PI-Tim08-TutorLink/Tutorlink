@@ -5,7 +5,6 @@ using TutorLinkApp.Services.Interfaces;
 
 public class AdminUserCreationService : IAdminUserCreationService
 {
-   
     private readonly TutorLinkContext _context;
     private readonly IPasswordHasher _hasher;
 
@@ -17,6 +16,9 @@ public class AdminUserCreationService : IAdminUserCreationService
 
     public async Task CreateUser(RegisterViewModel model, int roleId)
     {
+        // 1) Role validation
+        if (roleId != RoleIds.Admin && roleId != RoleIds.Student && roleId != RoleIds.Tutor)
+            throw new InvalidOperationException("Invalid roleId.");
 
         Console.WriteLine(">>> CreateUser POST HIT");
         Console.WriteLine($">>> Username={model.Username}, Email={model.Email}, roleId={roleId}");
@@ -26,21 +28,20 @@ public class AdminUserCreationService : IAdminUserCreationService
 
         var salt = _hasher.GenerateSalt();
         var hash = _hasher.Hash(model.Password, salt);
+
+        // 4) Create user
         var user = new User
         {
             Username = model.Username,
-            Email = model.Email,
             FirstName = model.FirstName,
             LastName = model.LastName,
-            RoleId = roleId,
+            Email = model.Email,
             PwdSalt = salt,
             PwdHash = hash,
-            CreatedAt = DateTime.Now
+            RoleId = roleId,
+            CreatedAt = DateTime.UtcNow,
+            DeletedAt = null
         };
-      
-
-        user.PwdSalt = salt;
-        user.PwdHash = hash;
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
