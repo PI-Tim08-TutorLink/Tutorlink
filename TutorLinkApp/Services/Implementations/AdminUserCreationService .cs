@@ -20,13 +20,10 @@ public class AdminUserCreationService : IAdminUserCreationService
 
         Console.WriteLine(">>> CreateUser POST HIT");
         Console.WriteLine($">>> Username={model.Username}, Email={model.Email}, roleId={roleId}");
-        // basic check
         var usernameTaken = await _context.Users.AnyAsync(u => u.Username == model.Username);
         if (usernameTaken)
             throw new InvalidOperationException("Username already exists.");
 
-        // var salt = Guid.NewGuid().ToString("N");
-        // var hash = _hasher.Hash(model.Password, salt);
         var salt = _hasher.GenerateSalt();
         var hash = _hasher.Hash(model.Password, salt);
         var user = new User
@@ -48,14 +45,8 @@ public class AdminUserCreationService : IAdminUserCreationService
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        // Tutor profil samo ako je tutor (ako imaš takvu logiku)
         if (roleId == RoleIds.Tutor)
         {
-            // ako u modelu ima Skills ili sl. - dodaj samo ako postoji u tvom VM-u
-            // _context.Tutors.Add(new Tutor { UserId = user.Id, Skill = model.Skills, CreatedAt = DateTime.Now });
-            // await _context.SaveChangesAsync();
         }
     }
-
-
 }
