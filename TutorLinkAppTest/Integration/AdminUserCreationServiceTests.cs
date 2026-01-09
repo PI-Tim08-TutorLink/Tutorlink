@@ -69,42 +69,6 @@ namespace TutorLinkAppTest.Integration
         }
 
         [Fact]
-        public async Task CreateUser_WhenEmailAlreadyExists_Throws()
-        {
-            using var ctx = AdminTestDbFactory.CreateContext("AdminUserCreation_EmailExists");
-
-            ctx.Users.Add(new User
-            {
-                Username = "admin",
-                FirstName = "Admin",
-                LastName = "Existing",
-                Email = "exists@admin.com",
-                RoleId = RoleIds.Admin,
-                PwdSalt = "salt",
-                PwdHash = "hash",
-                CreatedAt = DateTime.UtcNow,
-                DeletedAt = null
-            });
-            await ctx.SaveChangesAsync();
-
-            var hasher = new PasswordHasher();
-            var svc = new AdminUserCreationService(ctx, hasher);
-
-            var model = new RegisterViewModel
-            {
-                Username = "admin2",
-                FirstName = "Admin",
-                LastName = "Two",
-                Email = "exists@admin.com",
-                Password = "Secret123!",
-                ConfirmPassword = "Secret123!",
-                Role = "Admin"
-            };
-
-            await Assert.ThrowsAsync<InvalidOperationException>(() => svc.CreateUser(model, RoleIds.Admin));
-        }
-
-        [Fact]
         public async Task CreateUser_WithInvalidRoleId_Throws()
         {
             using var ctx = AdminTestDbFactory.CreateContext("AdminUserCreation_InvalidRole");

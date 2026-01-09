@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.Routing;
 using TutorLinkApp.VM;
 using TutorLinkApp.Services.Implementations;
+using TutorLinkApp.DTO;
+using TutorLinkApp.Models;
 
 namespace TutorLinkApp.Tests.Controllers
 {
@@ -385,6 +387,195 @@ namespace TutorLinkApp.Tests.Controllers
             // Act & Assert
             await Assert.ThrowsAsync<Exception>(async () =>
                 await controller.ForgotPassword(model, mockFacade.Object));
+        }
+
+        // ========== LOGIN TESTS ==========
+
+        [Fact]
+        public void Login_Get_ReturnsView()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+            var controller = CreateController(mockUserService, mockSessionManager);
+
+            var result = controller.Login() as ViewResult;
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task Login_Post_InvalidModel_ReturnsView()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+            var controller = CreateController(mockUserService, mockSessionManager);
+            controller.ModelState.AddModelError("Email", "Required");
+
+            var model = new LoginViewModel { Email = "", Password = "" };
+
+            var result = await controller.Login(model) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.False(controller.ModelState.IsValid);
+        }
+
+        [Fact]
+        public async Task Login_Post_InvalidCredentials_ReturnsViewWithError()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+            mockUserService
+                .Setup(s => s.AuthenticateUserWithRole(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync((UserWithRole?)null);
+
+            var controller = CreateController(mockUserService, mockSessionManager);
+            var model = new LoginViewModel { Email = "test@test.com", Password = "wrongpassword" };
+
+            var result = await controller.Login(model) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.False(controller.ModelState.IsValid);
+        }
+
+        [Fact]
+        public async Task Login_Post_ValidCredentials_RedirectsToHome()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+
+            var user = new User
+            {
+                Id = 1,
+                Username = "testuser",
+                FirstName = "Test",
+                LastName = "User",
+                Email = "test@test.com",
+                RoleId = 2,
+                PwdHash = "hash",
+                PwdSalt = "salt"
+            };
+            var userWithRole = new UserWithRole { User = user, RoleName = "Student" };
+
+            mockUserService
+                .Setup(s => s.AuthenticateUserWithRole(It.IsAny<string>(), It.IsAny<string>()))
+                .ReturnsAsync(userWithRole);
+
+            var controller = CreateController(mockUserService, mockSessionManager);
+            var model = new LoginViewModel { Email = "test@test.com", Password = "correctpassword" };
+
+            var result = await controller.Login(model) as RedirectToActionResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Index", result.ActionName);
+            Assert.Equal("Home", result.ControllerName);
+            mockSessionManager.Verify(s => s.SetUserSession(It.IsAny<HttpContext>(), It.IsAny<UserSession>()), Times.Once);
+        }
+
+        // ========== REGISTER TESTS ==========
+
+        [Fact]
+        public void Register_Get_ReturnsView()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+            var controller = CreateController(mockUserService, mockSessionManager);
+
+            var result = controller.Register() as ViewResult;
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task Register_Post_InvalidModel_ReturnsView()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+            var controller = CreateController(mockUserService, mockSessionManager);
+            controller.ModelState.AddModelError("Email", "Required");
+
+            var model = new RegisterViewModel();
+
+            var result = await controller.Register(model) as ViewResult;
+
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task Register_Post_EmailTaken_ReturnsViewWithError()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+            mockUserService.Setup(s => s.IsEmailTaken(It.IsAny<string>())).ReturnsAsync(true);
+
+            var controller = CreateController(mockUserService, mockSessionManager);
+            var model = new RegisterViewModel
+            {
+                Email = "taken@test.com",
+                Username = "newuser",
+                Password = "Password123!",
+                ConfirmPassword = "Password123!",
+                FirstName = "Test",
+                LastName = "User",
+                Role = "Student"
+            };
+
+            var result = await controller.Register(model) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.False(controller.ModelState.IsValid);
+        }
+
+        [Fact]
+        public async Task Register_Post_UsernameTaken_ReturnsViewWithError()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+            mockUserService.Setup(s => s.IsEmailTaken(It.IsAny<string>())).ReturnsAsync(false);
+            mockUserService.Setup(s => s.IsUsernameTaken(It.IsAny<string>())).ReturnsAsync(true);
+
+            var controller = CreateController(mockUserService, mockSessionManager);
+            var model = new RegisterViewModel
+            {
+                Email = "new@test.com",
+                Username = "takenuser",
+                Password = "Password123!",
+                ConfirmPassword = "Password123!",
+                FirstName = "Test",
+                LastName = "User",
+                Role = "Student"
+            };
+
+            var result = await controller.Register(model) as ViewResult;
+
+            Assert.NotNull(result);
+            Assert.False(controller.ModelState.IsValid);
+        }
+
+        [Fact]
+        public async Task Register_Post_ValidData_RedirectsToLogin()
+        {
+            var mockUserService = new Mock<IUserService>();
+            var mockSessionManager = new Mock<ISessionManager>();
+            mockUserService.Setup(s => s.IsEmailTaken(It.IsAny<string>())).ReturnsAsync(false);
+            mockUserService.Setup(s => s.IsUsernameTaken(It.IsAny<string>())).ReturnsAsync(false);
+
+            var controller = CreateController(mockUserService, mockSessionManager);
+            var model = new RegisterViewModel
+            {
+                Email = "new@test.com",
+                Username = "newuser",
+                Password = "Password123!",
+                ConfirmPassword = "Password123!",
+                FirstName = "Test",
+                LastName = "User",
+                Role = "Student"
+            };
+
+            var result = await controller.Register(model) as RedirectToActionResult;
+
+            Assert.NotNull(result);
+            Assert.Equal("Login", result.ActionName);
+            mockUserService.Verify(s => s.CreateUser(It.IsAny<RegisterViewModel>()), Times.Once);
         }
     }
 }

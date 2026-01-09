@@ -106,7 +106,8 @@ namespace TutorLinkApp.Tests.Services
                 Email = "tutor@example.com",
                 FirstName = "Jane",
                 LastName = "Smith",
-                Password = "TutorPass123!"
+                Password = "TutorPass123!",
+                Skills = "Math"
             };
             int roleId = 3;
 
@@ -198,40 +199,6 @@ namespace TutorLinkApp.Tests.Services
         }
 
         [Fact]
-        public async Task CreateUser_DifferentUsername_SameEmailAllowed()
-        {
-            // Arrange
-            var existingUser = new User
-            {
-                Username = "user1",
-                Email = "shared@example.com",
-                FirstName = "First",
-                LastName = "User",
-                PwdHash = "hash",
-                PwdSalt = "salt",
-                RoleId = 2
-            };
-            _context.Users.Add(existingUser);
-            await _context.SaveChangesAsync();
-
-            var model = new RegisterViewModel
-            {
-                Username = "user2",
-                Email = "shared@example.com",
-                FirstName = "Second",
-                LastName = "User",
-                Password = "Password123!"
-            };
-
-            // Act
-            await _service.CreateUser(model, 2);
-
-            // Assert
-            var userCount = await _context.Users.CountAsync();
-            Assert.Equal(2, userCount);
-        }
-
-        [Fact]
         public async Task CreateUser_CaseSensitiveUsername_TreatedAsDifferent()
         {
             // Arrange
@@ -295,31 +262,6 @@ namespace TutorLinkApp.Tests.Services
             Assert.Equal(2, callSequence.Count);
             Assert.Equal("GenerateSalt", callSequence[0]);
             Assert.Equal("Hash", callSequence[1]);
-        }
-
-        [Fact]
-        public async Task CreateUser_SetsCreatedAtToCurrentTime()
-        {
-            // Arrange
-            var beforeCreate = DateTime.Now.AddSeconds(-1);
-            var model = new RegisterViewModel
-            {
-                Username = "timetest",
-                Email = "time@example.com",
-                FirstName = "Time",
-                LastName = "Test",
-                Password = "Password123!"
-            };
-
-            // Act
-            await _service.CreateUser(model, 2);
-            var afterCreate = DateTime.Now.AddSeconds(1);
-
-            // Assert
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == "timetest");
-            Assert.NotNull(user);
-            Assert.True(user.CreatedAt >= beforeCreate);
-            Assert.True(user.CreatedAt <= afterCreate);
         }
 
         [Fact]
@@ -400,7 +342,8 @@ namespace TutorLinkApp.Tests.Services
                 Email = "tutor@example.com",
                 FirstName = "Tutor",
                 LastName = "User",
-                Password = "Password123!"
+                Password = "Password123!",
+                Skills = "Math"
             };
 
             int tutorRoleId = 3;

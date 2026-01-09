@@ -20,11 +20,15 @@ public class AdminUserCreationService : IAdminUserCreationService
         if (roleId != RoleIds.Admin && roleId != RoleIds.Student && roleId != RoleIds.Tutor)
             throw new InvalidOperationException("Invalid roleId.");
 
-        Console.WriteLine(">>> CreateUser POST HIT");
-        Console.WriteLine($">>> Username={model.Username}, Email={model.Email}, roleId={roleId}");
+        // 2) Username validation
         var usernameTaken = await _context.Users.AnyAsync(u => u.Username == model.Username);
         if (usernameTaken)
             throw new InvalidOperationException("Username already exists.");
+
+        // 3) Email validation - DODAJ OVO!
+        var emailTaken = await _context.Users.AnyAsync(u => u.Email == model.Email);
+        if (emailTaken)
+            throw new InvalidOperationException("Email already exists.");
 
         var salt = _hasher.GenerateSalt();
         var hash = _hasher.Hash(model.Password, salt);
@@ -46,8 +50,17 @@ public class AdminUserCreationService : IAdminUserCreationService
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
+        // 5) Create Tutor profile
         if (roleId == RoleIds.Tutor)
         {
+            var tutor = new Tutor
+            {
+                UserId = user.Id,
+                Skill = model.Skills,
+                DeletedAt = null
+            };
+            _context.Tutors.Add(tutor);
+            await _context.SaveChangesAsync();
         }
     }
 }
