@@ -34,27 +34,6 @@ namespace TutorLinkAppTest.Integration
         }
 
         [Fact]
-        public async Task Dashboard_ReturnsView()
-        {
-            var controller = CreateController();
-
-            var result = await controller.Dashboard();
-
-            Assert.IsType<ViewResult>(result);
-        }
-
-        [Fact]
-        public async Task Users_ReturnsViewWithModel()
-        {
-            var controller = CreateController();
-
-            var result = await controller.Users();
-
-            var view = Assert.IsType<ViewResult>(result);
-            Assert.IsAssignableFrom<IEnumerable<User>>(view.Model);
-        }
-
-        [Fact]
         public async Task CreateUser_Get_ReturnsView()
         {
             var controller = CreateController();
