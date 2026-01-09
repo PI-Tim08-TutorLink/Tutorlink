@@ -5,7 +5,6 @@ using TutorLinkApp.Services.Interfaces;
 
 public class AdminUserCreationService : IAdminUserCreationService
 {
-   
     private readonly TutorLinkContext _context;
     private readonly IPasswordHasher _hasher;
 
@@ -17,45 +16,53 @@ public class AdminUserCreationService : IAdminUserCreationService
 
     public async Task CreateUser(RegisterViewModel model, int roleId)
     {
+        // 1) Role validation
+        if (roleId != RoleIds.Admin && roleId != RoleIds.Student && roleId != RoleIds.Tutor)
+            throw new InvalidOperationException("Invalid roleId.");
 
-        Console.WriteLine(">>> CreateUser POST HIT");
-        Console.WriteLine($">>> Username={model.Username}, Email={model.Email}, roleId={roleId}");
-        // basic check
-        var usernameTaken = await _context.Users.AnyAsync(u => u.Username == model.Username);
-        if (usernameTaken)
-            throw new InvalidOperationException("Username already exists.");
+        // 2) Unique email (only not deleted)
+        var emailExists = await _context.Users
+            .AnyAsync(u => u.Email == model.Email && u.DeletedAt == null);
 
-        // var salt = Guid.NewGuid().ToString("N");
-        // var hash = _hasher.Hash(model.Password, salt);
+        if (emailExists)
+            throw new InvalidOperationException("Email already exists.");
+
+        // 3) Hash & Salt
         var salt = _hasher.GenerateSalt();
         var hash = _hasher.Hash(model.Password, salt);
+
+        // 4) Create user
         var user = new User
         {
             Username = model.Username,
-            Email = model.Email,
             FirstName = model.FirstName,
             LastName = model.LastName,
-            RoleId = roleId,
+            Email = model.Email,
             PwdSalt = salt,
             PwdHash = hash,
-            CreatedAt = DateTime.Now
+            RoleId = roleId,
+            CreatedAt = DateTime.UtcNow,
+            DeletedAt = null
         };
-      
-
-        user.PwdSalt = salt;
-        user.PwdHash = hash;
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        // Tutor profil samo ako je tutor (ako imaš takvu logiku)
+        // 5) If Tutor -> create Tutor profile
         if (roleId == RoleIds.Tutor)
         {
-            // ako u modelu ima Skills ili sl. - dodaj samo ako postoji u tvom VM-u
-            // _context.Tutors.Add(new Tutor { UserId = user.Id, Skill = model.Skills, CreatedAt = DateTime.Now });
-            // await _context.SaveChangesAsync();
+            // Ako je Skills null/empty, možeš ili dopustiti prazno ili baciti grešku.
+            // Za tvoje testove: dopusti, ali spremi string.
+            var tutor = new Tutor
+            {
+                UserId = user.Id,
+                Skill = model.Skills ?? string.Empty,
+                CreatedAt = DateTime.UtcNow,
+                DeletedAt = null
+            };
+
+            _context.Tutors.Add(tutor);
+            await _context.SaveChangesAsync();
         }
     }
-
-
 }
