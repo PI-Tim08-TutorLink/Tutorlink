@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using TutorLinkApp.Models;
 
@@ -27,12 +28,16 @@ namespace TutorLinkApp.Controllers
         public IActionResult Error(int? statusCode = null)
         {
             var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-            _logger.LogError($"Error occurred. Request ID: {requestId}, Status Code: {statusCode}");
+
+            _logger.LogError(
+                "Error occurred. RequestId: {RequestId}, StatusCode: {StatusCode}",
+                requestId,
+                statusCode
+            );
 
             if (statusCode.HasValue)
             {
                 ViewBag.StatusCode = statusCode.Value;
-
                 ViewBag.ErrorMessage = statusCode.Value switch
                 {
                     400 => "Bad Request - The request could not be understood.",
@@ -49,7 +54,10 @@ namespace TutorLinkApp.Controllers
                 ViewBag.ErrorMessage = "An unexpected error occurred.";
             }
 
-            return View();
+            return View(new ErrorViewModel
+            {
+                RequestId = requestId
+            });
         }
     }
 }
