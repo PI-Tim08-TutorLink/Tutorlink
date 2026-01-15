@@ -10,7 +10,7 @@
             <div class="card text-white bg-primary mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Total Users</h5>
-                    <h2 class="card-text">@ViewBag.TotalUsers</h2>
+                    <h2 class="card-text">@Html.Encode(ViewBag.TotalUsers)</h2>
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
             <div class="card text-white bg-success mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Total Tutors</h5>
-                    <h2 class="card-text">@ViewBag.TotalTutors</h2>
+                    <h2 class="card-text">@Html.Encode(ViewBag.TotalTutors)</h2>
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <div class="card text-white bg-info mb-3">
                 <div class="card-body">
                     <h5 class="card-title">Total Students</h5>
-                    <h2 class="card-text">@ViewBag.TotalStudents</h2>
+                    <h2 class="card-text">@Html.Encode(ViewBag.TotalStudents)</h2>
                 </div>
             </div>
         </div>
@@ -46,11 +46,4 @@
         <div class="col-md-6 mb-3">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Tutor Management</h5>
-                    <p class="card-text">View and manage tutor profiles and their skills.</p>
-                    <a asp-controller="Tutor" asp-action="Index" class="btn btn-primary">View All Tutors</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    <h5 class="c

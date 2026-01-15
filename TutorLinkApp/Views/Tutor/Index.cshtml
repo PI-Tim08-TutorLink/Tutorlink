@@ -27,19 +27,19 @@
         <!-- Min Price -->
         <div class="col-md-2">
             <label for="MinPrice" class="form-label">Min Price (€)</label>
-            <input type="number" step="0.01" min="0" id="MinPrice" name="MinPrice" value="@(Model.MinPrice?.ToString() ?? "")" class="form-control" placeholder="Min price" />
+            <input asp-for="MinPrice" type="number" step="0.01" min="0" class="form-control" placeholder="Min price" />
         </div>
 
         <!-- Max Price -->
         <div class="col-md-2">
             <label for="MaxPrice" class="form-label">Max Price (€)</label>
-            <input type="number" step="0.01" min="0" id="MaxPrice" name="MaxPrice" value="@(Model.MaxPrice?.ToString() ?? "")" class="form-control" placeholder="Max price" />
+            <input asp-for="MaxPrice" type="number" step="0.01" min="0" class="form-control" placeholder="Max price" />
         </div>
 
         <!-- Min Rating -->
         <div class="col-md-2">
             <label for="MinRating" class="form-label">Min Rating</label>
-            <input type="number" step="0.1" min="0" max="5" id="MinRating" name="MinRating" value="@(Model.MinRating?.ToString() ?? "")" class="form-control" placeholder="Min rating" />
+            <input asp-for="MinRating" type="number" step="0.1" min="0" max="5" class="form-control" placeholder="Min rating" />
         </div>
 
         <!-- Sort By -->
@@ -77,23 +77,23 @@ else
             <div class="col-md-4 mb-4">
                 <div class="card h-100 shadow-sm">
                     <div class="card-body">
-                        <h5 class="card-title">@tutor.FullName (@tutor.Username)</h5>
+                        <h5 class="card-title">@Html.DisplayFor(m => tutor.FullName) (@Html.DisplayFor(m => tutor.Username))</h5>
                         <p class="card-text">
-                            <strong>Email:</strong> @tutor.Email <br />
-                            <strong>Skills:</strong> @(tutor.Skills.Count > 0 ? string.Join(", ", tutor.Skills) : "N/A") <br />
-                            <strong>Hourly rate:</strong> @(tutor.HourlyRate.HasValue ? tutor.HourlyRate + " €" : "N/A") <br />
-                            <strong>Rating:</strong> @(tutor.AverageRating.HasValue ? tutor.AverageRating + "/5" : "No reviews") <br />
-                            <strong>Total reviews:</strong> @tutor.TotalReviews
+                            <strong>Email:</strong> @Html.DisplayFor(m => tutor.Email) <br />
+                            <strong>Skills:</strong> @Html.Encode(tutor.Skills.Count > 0 ? string.Join(", ", tutor.Skills) : "N/A") <br />
+                            <strong>Hourly rate:</strong> @Html.Encode(tutor.HourlyRate.HasValue ? tutor.HourlyRate + " €" : "N/A") <br />
+                            <strong>Rating:</strong> @Html.Encode(tutor.AverageRating.HasValue ? tutor.AverageRating + "/5" : "No reviews") <br />
+                            <strong>Total reviews:</strong> @Html.DisplayFor(m => tutor.TotalReviews)
                         </p>
 
                         @if (!string.IsNullOrEmpty(tutor.Bio))
                         {
-                            <p><strong>Bio:</strong> @tutor.Bio</p>
+                            <p><strong>Bio:</strong> @Html.DisplayFor(m => tutor.Bio)</p>
                         }
 
                         @if (!string.IsNullOrEmpty(tutor.Availability))
                         {
-                            <p><strong>Availability:</strong> @tutor.Availability</p>
+                            <p><strong>Availability:</strong> @Html.DisplayFor(m => tutor.Availability)</p>
                         }
 
                         <a asp-action="Details" asp-route-id="@tutor.Id" class="btn btn-primary btn-sm">View Details</a>

@@ -70,17 +70,8 @@
 </form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-    <script>
-        const roleSelect = document.getElementById('roleSelect');
-        const skillsWrapper = document.getElementById('skillsWrapper');
-
-        function toggleSkills() {
-            if (!roleSelect || !skillsWrapper) return;
-            skillsWrapper.style.display = (roleSelect.value === 'Tutor') ? '' : 'none';
-        }
-
-        roleSelect?.addEventListener('change', toggleSkills);
-        toggleSkills();
-    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/site.js"></script>
 }
