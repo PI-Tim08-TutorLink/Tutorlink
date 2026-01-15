@@ -1,4 +1,22 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.addEventListener('DOMContentLoaded', function () {
+    // Role selection for tutor skills
+    const roleSelect = document.getElementById('roleSelect');
+    const skillsGroup = document.getElementById('skillsGroup');
+    const skillsWrapper = document.getElementById('skillsWrapper');
 
-// Write your JavaScript code.
+    function toggleSkills() {
+        const targetElement = skillsGroup || skillsWrapper;
+        if (!roleSelect || !targetElement) return;
+
+        if (roleSelect.value === 'Tutor') {
+            targetElement.style.display = 'block';
+        } else {
+            targetElement.style.display = 'none';
+        }
+    }
+
+    if (roleSelect) {
+        roleSelect.addEventListener('change', toggleSkills);
+        toggleSkills(); // Initial check
+    }
+});

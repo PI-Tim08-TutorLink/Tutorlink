@@ -88,14 +88,5 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script>
-        document.getElementById('roleSelect').addEventListener('change', function() {
-            var skillsGroup = document.getElementById('skillsGroup');
-            if (this.value === 'Tutor') {
-                skillsGroup.style.display = 'block';
-            } else {
-                skillsGroup.style.display = 'none';
-            }
-        });
-    </script>
+    <script src="~/js/site.js"></script>
 }
