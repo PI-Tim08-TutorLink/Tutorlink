@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using TutorLinkApp.Services.Interfaces;
 
 public class PasswordHasher : IPasswordHasher
 {

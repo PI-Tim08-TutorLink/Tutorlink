@@ -1,5 +1,4 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
-    // Role selection for tutor skills
     const roleSelect = document.getElementById('roleSelect');
     const skillsGroup = document.getElementById('skillsGroup');
     const skillsWrapper = document.getElementById('skillsWrapper');
@@ -17,6 +16,6 @@
 
     if (roleSelect) {
         roleSelect.addEventListener('change', toggleSkills);
-        toggleSkills(); // Initial check
+        toggleSkills();
     }
 });

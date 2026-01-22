@@ -2,6 +2,7 @@
 using TutorLinkApp.Models;
 using TutorLinkApp.Services.Email;
 using TutorLinkApp.Services.Implementations;
+using TutorLinkApp.Services.Interfaces;
 
 public class ResetPasswordFacade : IResetPasswordFacade
 {

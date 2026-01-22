@@ -1,0 +1,31 @@
+﻿@model TutorLinkApp.Models.User
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="card p-4" style="max-width:600px;">
+    <div class="d-flex align-items-center mb-3">
+        <img src="~/images/profile-placeholder.png" alt="Profile" class="rounded-circle me-3" style="width:60px; height:60px;" />
+        <div>
+            <strong>@Model.FirstName @Model.LastName</strong><br />
+            <small>@(Model.Role?.Role1 ?? "Student")</small>
+        </div>
+    </div>
+
+    <div class="mb-3"><strong>Username:</strong> @Model.Username</div>
+    <div class="mb-3"><strong>Email:</strong> @Model.Email</div>
+
+    @if (Model.Tutors != null && Model.Tutors.Any())
+    {
+        var tutor = Model.Tutors.First();
+        <hr />
+        <h5>Tutor Information</h5>
+        <div class="mb-3"><strong>Skills:</strong> @tutor.Skill</div>
+        <div class="mb-3"><strong>Hourly Rate:</strong> @tutor.HourlyRate</div>
+        <div class="mb-3"><strong>Average Rating:</strong> @tutor.AverageRating</div>
+        <div class="mb-3"><strong>Bio:</strong> @tutor.Bio</div>
+    }
+</div>

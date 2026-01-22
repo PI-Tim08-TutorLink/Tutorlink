@@ -14,9 +14,13 @@ namespace TutorLinkApp.Services.Implementations
         public Task SendAsync(string to, string subject, string body)
         {
             _logger.LogInformation("FAKE EMAIL SENT");
-            _logger.LogInformation($"TO: {to}");
-            _logger.LogInformation($"SUBJECT: {subject}");
-            _logger.LogInformation($"BODY:\n{body}");
+
+            _logger.LogInformation(
+                "Email details | To: {To} | Subject: {Subject} | Body: {Body}",
+                to,
+                subject,
+                body
+            );
 
             return Task.CompletedTask;
         }
