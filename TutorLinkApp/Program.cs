@@ -3,14 +3,25 @@ using TutorLinkApp.Models;
 using TutorLinkApp.Services.Email;
 using TutorLinkApp.Services.Implementations;
 using TutorLinkApp.Services.Interfaces;
+using System.Security.Cryptography;
 using ILogger = TutorLinkApp.Services.Interfaces.ILogger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+var connStrTemplate = builder.Configuration.GetConnectionString("DefaultConnection");
+
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+if (string.IsNullOrWhiteSpace(dbPassword))
+{
+    throw new InvalidOperationException("DB_PASSWORD environment variable is not set.");
+}
+
+var connectionString = connStrTemplate.Replace("{DB_PASSWORD}", dbPassword);
+
 builder.Services.AddDbContext<TutorLinkContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
 
 // User-related
 builder.Services.AddSingleton<ILogger>(AppLogger.GetInstance());
@@ -28,10 +39,10 @@ builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<ITutorService, TutorService>();
 builder.Services.AddScoped<TutorService>();
 builder.Services.AddScoped<ITutorService>(provider =>
-new LoggingTutorServiceDecorator(
-provider.GetRequiredService<TutorService>(),
-provider.GetRequiredService<ILogger>()
-)
+    new LoggingTutorServiceDecorator(
+        provider.GetRequiredService<TutorService>(),
+        provider.GetRequiredService<ILogger>()
+    )
 );
 
 // Email-related
@@ -87,7 +98,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseHsts();
 }
 else
 {
@@ -99,16 +109,20 @@ app.UseStatusCodePagesWithReExecute("/Home/Error", "?statusCode={0}");
 
 app.Use(async (context, next) =>
 {
-    // HSTS Header - dodaj OVDJE
+    // Generate CSP nonce
+    var nonce = Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+    context.Items["csp-nonce"] = nonce;
+
+    // HSTS Header
     context.Response.Headers["Strict-Transport-Security"] =
         "max-age=31536000; includeSubDomains; preload";
 
-    // CSP Header
+    // CSP
     context.Response.Headers["Content-Security-Policy"] =
         "default-src 'self'; " +
-        "script-src 'self' https://cdn.jsdelivr.net; " +
-        "style-src 'self'; " +  // Bez unsafe-inline
-        "img-src 'self' data:; " +
+        $"script-src 'self' 'nonce-{nonce}' https://cdn.jsdelivr.net; " +
+        $"style-src 'self' 'nonce-{nonce}' https://cdn.jsdelivr.net; " +
+        "img-src 'self' data: https://images.unsplash.com https://via.placeholder.com; " +
         "font-src 'self'; " +
         "connect-src 'self'; " +
         "frame-ancestors 'none'; " +
@@ -139,13 +153,13 @@ app.Use(async (context, next) =>
 
 app.UseCookiePolicy();
 app.UseHttpsRedirection();
-app.UseStaticFiles();  // UKLONI OnPrepareResponse - nije potreban više
+app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-name: "default",
-pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.Run();
+await app.RunAsync();

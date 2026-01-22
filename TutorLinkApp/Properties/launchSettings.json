@@ -4,7 +4,8 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_PASSWORD": "Tutorlink1"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5202"
@@ -13,7 +14,8 @@
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_PASSWORD": "Tutorlink1"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7142;http://localhost:5202"
@@ -22,7 +24,8 @@
       "commandName": "IISExpress",
       "launchBrowser": true,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DB_PASSWORD": "Tutorlink1"
       }
     }
   },

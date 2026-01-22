@@ -1,16 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TutorLinkApp.DTO;
 using TutorLinkApp.Models;
+using TutorLinkApp.Services.Interfaces;
 
 namespace TutorLinkApp.Services.Implementations
 {
-    public interface IUserService
-    {
-        Task<bool> IsEmailTaken(string email);
-        Task<bool> IsUsernameTaken(string username);
-        Task<User> CreateUser(RegisterViewModel model);
-        Task<UserWithRole?> AuthenticateUserWithRole(string email, string password);
-    }
-
     public class UserService : IUserService
     {
         private readonly TutorLinkContext _context;
@@ -65,22 +59,24 @@ namespace TutorLinkApp.Services.Implementations
             return user;
         }
 
-        public async Task<UserWithRole?> AuthenticateUserWithRole(string email, string password)
+        public async Task<User?> AuthenticateUser(string email, string password)
         {
             var user = await _context.Users
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Email == email && u.DeletedAt == null);
 
             if (user == null) return null;
-
             if (!_hasher.Verify(password, user.PwdHash, user.PwdSalt)) return null;
 
-            var role = await _context.Roles.FindAsync(user.RoleId);
-            return new UserWithRole
-            {
-                User = user,
-                RoleName = role?.Role1 ?? "Student"
-            };
+            return user;
+        }
+
+        public async Task<User?> GetUserById(int id)
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .Include(u => u.Tutors)
+                .FirstOrDefaultAsync(u => u.Id == id && u.DeletedAt == null);
         }
     }
-
 }

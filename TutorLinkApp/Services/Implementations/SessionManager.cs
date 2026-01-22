@@ -1,4 +1,5 @@
 ﻿using TutorLinkApp.DTO;
+using TutorLinkApp.Services.Interfaces;
 
 namespace TutorLinkApp.Services.Implementations
 {

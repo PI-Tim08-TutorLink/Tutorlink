@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using TutorLinkApp.Models;
@@ -27,6 +27,11 @@ namespace TutorLinkApp.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int? statusCode = null)
         {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Invalid model state in Error action");
+            }
+
             var requestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
 
             _logger.LogError(

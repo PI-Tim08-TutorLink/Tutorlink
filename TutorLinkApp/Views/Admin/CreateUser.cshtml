@@ -12,44 +12,44 @@
     <div asp-validation-summary="All" class="alert alert-danger"></div>
 
     <div class="mb-3">
-        <label asp-for="Username" class="form-label"></label>
-        <input asp-for="Username" class="form-control" />
+        <label for="Username" class="form-label">Username</label>
+        <input asp-for="Username" id="Username" class="form-control" />
         <span asp-validation-for="Username" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="FirstName" class="form-label"></label>
-        <input asp-for="FirstName" class="form-control" />
+        <label for="FirstName" class="form-label">First Name</label>
+        <input asp-for="FirstName" id="FirstName" class="form-control" />
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
+        <label for="LastName" class="form-label">Last Name</label>
+        <input asp-for="LastName" id="LastName" class="form-control" />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
+        <label for="Email" class="form-label">Email</label>
+        <input asp-for="Email" id="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" type="password" class="form-control" />
+        <label for="Password" class="form-label">Password</label>
+        <input asp-for="Password" id="Password" type="password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="ConfirmPassword" class="form-label"></label>
-        <input asp-for="ConfirmPassword" type="password" class="form-control" />
+        <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+        <input asp-for="ConfirmPassword" id="ConfirmPassword" type="password" class="form-control" />
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label asp-for="Role" class="form-label"></label>
-        <select asp-for="Role" class="form-select" id="roleSelect">
+        <label for="Role" class="form-label">Role</label>
+        <select asp-for="Role" id="Role" class="form-select js-role-select">
             <option value="">-- Select role --</option>
             <option value="Admin">Admin</option>
             <option value="Student">Student</option>
@@ -59,14 +59,17 @@
     </div>
 
     <div class="mb-3" id="skillsWrapper" style="display:none;">
-        <label asp-for="Skills" class="form-label"></label>
-        <input asp-for="Skills" class="form-control" placeholder="e.g. Mathematics, Programming" />
+        <label for="Skills" class="form-label">Skills</label>
+        <input asp-for="Skills" id="Skills" class="form-control"
+               placeholder="e.g. Mathematics, Programming" />
         <span asp-validation-for="Skills" class="text-danger"></span>
         <div class="form-text">Only for Tutor role.</div>
     </div>
 
     <button type="submit" class="btn btn-success">Create</button>
-    <a asp-controller="Admin" asp-action="Users" class="btn btn-secondary ms-2">Cancel</a>
+    <a asp-controller="Admin" asp-action="Users" class="btn btn-secondary ms-2">
+        Cancel
+    </a>
 </form>
 
 @section Scripts {

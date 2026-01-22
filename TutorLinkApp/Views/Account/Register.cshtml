@@ -14,49 +14,50 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-group mb-3">
-                        <label asp-for="Email" class="form-label"></label>
-                        <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                        <label for="Email" class="form-label">Email</label>
+                        <input asp-for="Email" id="Email" class="form-control" placeholder="Enter your email" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label asp-for="Username" class="form-label"></label>
-                        <input asp-for="Username" class="form-control" placeholder="Choose a username" />
+                        <label for="Username" class="form-label">Username</label>
+                        <input asp-for="Username" id="Username" class="form-control" placeholder="Choose a username" />
                         <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label asp-for="FirstName" class="form-label"></label>
-                                <input asp-for="FirstName" class="form-control" placeholder="First name" />
+                                <label for="FirstName" class="form-label">First Name</label>
+                                <input asp-for="FirstName" id="FirstName" class="form-control" placeholder="First name" />
                                 <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="form-group mb-3">
-                                <label asp-for="LastName" class="form-label"></label>
-                                <input asp-for="LastName" class="form-control" placeholder="Last name" />
+                                <label for="LastName" class="form-label">Last Name</label>
+                                <input asp-for="LastName" id="LastName" class="form-control" placeholder="Last name" />
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label asp-for="Password" class="form-label"></label>
-                        <input asp-for="Password" class="form-control" placeholder="Enter password" />
+                        <label for="Password" class="form-label">Password</label>
+                        <input asp-for="Password" id="Password" type="password" class="form-control" placeholder="Enter password" />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label asp-for="ConfirmPassword" class="form-label"></label>
-                        <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm password" />
+                        <label for="ConfirmPassword" class="form-label">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" id="ConfirmPassword" type="password" class="form-control" placeholder="Confirm password" />
                         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label asp-for="Role" class="form-label"></label>
-                        <select asp-for="Role" class="form-select" id="roleSelect">
+                        <label for="Role" class="form-label">Role</label>
+                        <select asp-for="Role" id="Role" class="form-select js-role-select">
                             <option value="">-- Select Role --</option>
                             <option value="Student">Student</option>
                             <option value="Tutor">Tutor</option>
@@ -65,8 +66,8 @@
                     </div>
 
                     <div class="form-group mb-3" id="skillsGroup" style="display: none;">
-                        <label asp-for="Skills" class="form-label"></label>
-                        <input asp-for="Skills" class="form-control" placeholder="e.g., Mathematics, Physics, Programming" />
+                        <label for="Skills" class="form-label">Skills</label>
+                        <input asp-for="Skills" id="Skills" class="form-control" placeholder="e.g., Mathematics, Physics, Programming" />
                         <span asp-validation-for="Skills" class="text-danger"></span>
                         <small class="form-text text-muted">Enter the subjects you can teach (required for tutors)</small>
                     </div>
