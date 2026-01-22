@@ -12,6 +12,7 @@ namespace TutorLinkAppTest.Service
     using System.Linq;
     using System.Threading.Tasks;
     using TutorLinkApp.Models;
+    using TutorLinkApp.Services.Implementations;
     using Xunit;
 
     namespace TutorLinkAppTest.Integration

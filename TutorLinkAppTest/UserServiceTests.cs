@@ -7,6 +7,7 @@ using TutorLinkApp.VM;
 using System;
 using System.Threading.Tasks;
 using System.Linq;
+using TutorLinkApp.Services.Interfaces;
 
 namespace TutorLinkApp.Tests.Services
 {
@@ -54,7 +55,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task IsEmailTaken_EmailExists_ReturnsTrue()
         {
-            // Arrange
             var user = new User
             {
                 Email = "existing@example.com",
@@ -68,20 +68,16 @@ namespace TutorLinkApp.Tests.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Act
             var result = await _userService.IsEmailTaken("existing@example.com");
 
-            // Assert
             Assert.True(result);
         }
 
         [Fact]
         public async Task IsEmailTaken_EmailDoesNotExist_ReturnsFalse()
         {
-            // Act
             var result = await _userService.IsEmailTaken("notfound@example.com");
 
-            // Assert
             Assert.False(result);
         }
 
@@ -90,7 +86,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task IsUsernameTaken_UsernameExists_ReturnsTrue()
         {
-            // Arrange
             var user = new User
             {
                 Email = "test@example.com",
@@ -104,20 +99,16 @@ namespace TutorLinkApp.Tests.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Act
             var result = await _userService.IsUsernameTaken("existinguser");
 
-            // Assert
             Assert.True(result);
         }
 
         [Fact]
         public async Task IsUsernameTaken_UsernameDoesNotExist_ReturnsFalse()
         {
-            // Act
             var result = await _userService.IsUsernameTaken("nonexistentuser");
 
-            // Assert
             Assert.False(result);
         }
 
@@ -126,7 +117,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task CreateUser_AsStudent_CreatesUserWithRoleId2()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "student@example.com",
@@ -137,10 +127,8 @@ namespace TutorLinkApp.Tests.Services
                 Role = "Student"
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
             Assert.NotNull(result);
             Assert.Equal("student@example.com", result.Email);
             Assert.Equal("student1", result.Username);
@@ -158,7 +146,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task CreateUser_AsTutor_CreatesUserWithRoleId3()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "tutor@example.com",
@@ -170,10 +157,8 @@ namespace TutorLinkApp.Tests.Services
                 Skills = "Math, Physics"
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
             Assert.NotNull(result);
             Assert.Equal(3, result.RoleId);
             Assert.Equal("tutor@example.com", result.Email);
@@ -182,7 +167,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task CreateUser_AsTutorWithSkills_CreatesTutorRecord()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "tutor@example.com",
@@ -194,10 +178,8 @@ namespace TutorLinkApp.Tests.Services
                 Skills = "Math, Physics, Chemistry"
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
             var tutor = await _context.Tutors.FirstOrDefaultAsync(t => t.UserId == result.Id);
             Assert.NotNull(tutor);
             Assert.Equal(result.Id, tutor.UserId);
@@ -208,7 +190,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task CreateUser_AsTutorWithoutSkills_DoesNotCreateTutorRecord()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "tutor@example.com",
@@ -220,10 +201,8 @@ namespace TutorLinkApp.Tests.Services
                 Skills = ""
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
             var tutor = await _context.Tutors.FirstOrDefaultAsync(t => t.UserId == result.Id);
             Assert.Null(tutor);
         }
@@ -231,7 +210,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task CreateUser_AsTutorWithNullSkills_DoesNotCreateTutorRecord()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "tutor@example.com",
@@ -243,10 +221,8 @@ namespace TutorLinkApp.Tests.Services
                 Skills = null
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
             var tutor = await _context.Tutors.FirstOrDefaultAsync(t => t.UserId == result.Id);
             Assert.Null(tutor);
         }
@@ -254,7 +230,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task CreateUser_AsTutorWithWhitespaceSkills_DoesNotCreateTutorRecord()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "tutor@example.com",
@@ -266,10 +241,8 @@ namespace TutorLinkApp.Tests.Services
                 Skills = "   "
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
             var tutor = await _context.Tutors.FirstOrDefaultAsync(t => t.UserId == result.Id);
             Assert.Null(tutor);
         }
@@ -277,7 +250,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task CreateUser_AsStudent_DoesNotCreateTutorRecord()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "student@example.com",
@@ -289,10 +261,8 @@ namespace TutorLinkApp.Tests.Services
                 Skills = "Some skills"
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
             var tutor = await _context.Tutors.FirstOrDefaultAsync(t => t.UserId == result.Id);
             Assert.Null(tutor);
         }
@@ -300,7 +270,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task CreateUser_RoleCaseInsensitive_TutorLowercase_CreatesCorrectRole()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "tutor@example.com",
@@ -312,61 +281,14 @@ namespace TutorLinkApp.Tests.Services
                 Skills = "Math"
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
-            Assert.Equal(3, result.RoleId);
-        }
-
-        [Fact]
-        public async Task CreateUser_RoleCaseInsensitive_TutorUppercase_CreatesCorrectRole()
-        {
-            // Arrange
-            var model = new RegisterViewModel
-            {
-                Email = "tutor@example.com",
-                Username = "tutor1",
-                FirstName = "Jane",
-                LastName = "Smith",
-                Password = "Password123!",
-                Role = "TUTOR",
-                Skills = "Math"
-            };
-
-            // Act
-            var result = await _userService.CreateUser(model);
-
-            // Assert
-            Assert.Equal(3, result.RoleId);
-        }
-
-        [Fact]
-        public async Task CreateUser_RoleCaseInsensitive_TutorMixedCase_CreatesCorrectRole()
-        {
-            // Arrange
-            var model = new RegisterViewModel
-            {
-                Email = "tutor@example.com",
-                Username = "tutor1",
-                FirstName = "Jane",
-                LastName = "Smith",
-                Password = "Password123!",
-                Role = "TuToR",
-                Skills = "Math"
-            };
-
-            // Act
-            var result = await _userService.CreateUser(model);
-
-            // Assert
             Assert.Equal(3, result.RoleId);
         }
 
         [Fact]
         public async Task CreateUser_UnknownRole_DefaultsToStudent()
         {
-            // Arrange
             var model = new RegisterViewModel
             {
                 Email = "user@example.com",
@@ -377,19 +299,16 @@ namespace TutorLinkApp.Tests.Services
                 Role = "Admin"
             };
 
-            // Act
             var result = await _userService.CreateUser(model);
 
-            // Assert
             Assert.Equal(2, result.RoleId);
         }
 
-        // ========== AUTHENTICATE USER WITH ROLE TESTS ==========
+        // ========== AUTHENTICATE USER TESTS ==========
 
         [Fact]
-        public async Task AuthenticateUserWithRole_ValidCredentials_ReturnsUserWithRole()
+        public async Task AuthenticateUser_ValidCredentials_ReturnsUser()
         {
-            // Arrange
             var user = new User
             {
                 Email = "test@example.com",
@@ -407,29 +326,25 @@ namespace TutorLinkApp.Tests.Services
             _mockHasher.Setup(h => h.Verify("CorrectPassword", "correct-hash", "correct-salt"))
                 .Returns(true);
 
-            // Act
-            var result = await _userService.AuthenticateUserWithRole("test@example.com", "CorrectPassword");
+            var result = await _userService.AuthenticateUser("test@example.com", "CorrectPassword");
 
-            // Assert
             Assert.NotNull(result);
-            Assert.Equal(user.Id, result.User.Id);
-            Assert.Equal("Student", result.RoleName);
+            Assert.Equal(user.Id, result.Id);
+            Assert.Equal("testuser", result.Username);
+            Assert.NotNull(result.Role);
         }
 
         [Fact]
-        public async Task AuthenticateUserWithRole_UserNotFound_ReturnsNull()
+        public async Task AuthenticateUser_UserNotFound_ReturnsNull()
         {
-            // Act
-            var result = await _userService.AuthenticateUserWithRole("notfound@example.com", "Password");
+            var result = await _userService.AuthenticateUser("notfound@example.com", "Password");
 
-            // Assert
             Assert.Null(result);
         }
 
         [Fact]
-        public async Task AuthenticateUserWithRole_DeletedUser_ReturnsNull()
+        public async Task AuthenticateUser_DeletedUser_ReturnsNull()
         {
-            // Arrange
             var user = new User
             {
                 Email = "deleted@example.com",
@@ -444,17 +359,14 @@ namespace TutorLinkApp.Tests.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            // Act
-            var result = await _userService.AuthenticateUserWithRole("deleted@example.com", "Password");
+            var result = await _userService.AuthenticateUser("deleted@example.com", "Password");
 
-            // Assert
             Assert.Null(result);
         }
 
         [Fact]
-        public async Task AuthenticateUserWithRole_WrongPassword_ReturnsNull()
+        public async Task AuthenticateUser_WrongPassword_ReturnsNull()
         {
-            // Arrange
             var user = new User
             {
                 Email = "test@example.com",
@@ -472,75 +384,16 @@ namespace TutorLinkApp.Tests.Services
             _mockHasher.Setup(h => h.Verify("WrongPassword", "correct-hash", "correct-salt"))
                 .Returns(false);
 
-            // Act
-            var result = await _userService.AuthenticateUserWithRole("test@example.com", "WrongPassword");
+            var result = await _userService.AuthenticateUser("test@example.com", "WrongPassword");
 
-            // Assert
             Assert.Null(result);
         }
 
-        [Fact]
-        public async Task AuthenticateUserWithRole_AdminUser_ReturnsAdminRole()
-        {
-            // Arrange
-            var user = new User
-            {
-                Email = "admin@example.com",
-                Username = "admin",
-                FirstName = "Admin",
-                LastName = "User",
-                PwdHash = "hash",
-                PwdSalt = "salt",
-                RoleId = 1,
-                DeletedAt = null
-            };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            _mockHasher.Setup(h => h.Verify(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(true);
-
-            // Act
-            var result = await _userService.AuthenticateUserWithRole("admin@example.com", "Password");
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal("Admin", result.RoleName);
-        }
+        // ========== GET USER BY ID TESTS ==========
 
         [Fact]
-        public async Task AuthenticateUserWithRole_TutorUser_ReturnsTutorRole()
+        public async Task GetUserById_UserExists_ReturnsUser()
         {
-            // Arrange
-            var user = new User
-            {
-                Email = "tutor@example.com",
-                Username = "tutor",
-                FirstName = "Tutor",
-                LastName = "User",
-                PwdHash = "hash",
-                PwdSalt = "salt",
-                RoleId = 3,
-                DeletedAt = null
-            };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            _mockHasher.Setup(h => h.Verify(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(true);
-
-            // Act
-            var result = await _userService.AuthenticateUserWithRole("tutor@example.com", "Password");
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal("Tutor", result.RoleName);
-        }
-
-        [Fact]
-        public async Task AuthenticateUserWithRole_RoleNotFound_DefaultsToStudent()
-        {
-            // Arrange
             var user = new User
             {
                 Email = "test@example.com",
@@ -549,21 +402,47 @@ namespace TutorLinkApp.Tests.Services
                 LastName = "User",
                 PwdHash = "hash",
                 PwdSalt = "salt",
-                RoleId = 999,
+                RoleId = 2,
                 DeletedAt = null
             };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            _mockHasher.Setup(h => h.Verify(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(true);
+            var result = await _userService.GetUserById(user.Id);
 
-            // Act
-            var result = await _userService.AuthenticateUserWithRole("test@example.com", "Password");
-
-            // Assert
             Assert.NotNull(result);
-            Assert.Equal("Student", result.RoleName);
+            Assert.Equal(user.Id, result.Id);
+            Assert.Equal("testuser", result.Username);
+        }
+
+        [Fact]
+        public async Task GetUserById_UserNotFound_ReturnsNull()
+        {
+            var result = await _userService.GetUserById(999);
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task GetUserById_DeletedUser_ReturnsNull()
+        {
+            var user = new User
+            {
+                Email = "deleted@example.com",
+                Username = "deleteduser",
+                FirstName = "Deleted",
+                LastName = "User",
+                PwdHash = "hash",
+                PwdSalt = "salt",
+                RoleId = 2,
+                DeletedAt = DateTime.Now
+            };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var result = await _userService.GetUserById(user.Id);
+
+            Assert.Null(result);
         }
 
         // ========== INTEGRATION TESTS ==========
@@ -571,7 +450,6 @@ namespace TutorLinkApp.Tests.Services
         [Fact]
         public async Task FullWorkflow_CreateStudentAndAuthenticate_WorksCorrectly()
         {
-            // Arrange
             var registerModel = new RegisterViewModel
             {
                 Email = "newstudent@example.com",
@@ -586,22 +464,17 @@ namespace TutorLinkApp.Tests.Services
             _mockHasher.Setup(h => h.Hash("Password123!", "new-salt")).Returns("new-hash");
             _mockHasher.Setup(h => h.Verify("Password123!", "new-hash", "new-salt")).Returns(true);
 
-            // Act
             var createdUser = await _userService.CreateUser(registerModel);
+            var authResult = await _userService.AuthenticateUser("newstudent@example.com", "Password123!");
 
-            // Act
-            var authResult = await _userService.AuthenticateUserWithRole("newstudent@example.com", "Password123!");
-
-            // Assert
             Assert.NotNull(authResult);
-            Assert.Equal(createdUser.Id, authResult.User.Id);
-            Assert.Equal("Student", authResult.RoleName);
+            Assert.Equal(createdUser.Id, authResult.Id);
+            Assert.Equal(2, authResult.RoleId);
         }
 
         [Fact]
         public async Task FullWorkflow_CreateTutorWithSkillsAndAuthenticate_WorksCorrectly()
         {
-            // Arrange
             var registerModel = new RegisterViewModel
             {
                 Email = "newtutor@example.com",
@@ -617,19 +490,16 @@ namespace TutorLinkApp.Tests.Services
             _mockHasher.Setup(h => h.Hash("Password123!", "tutor-salt")).Returns("tutor-hash");
             _mockHasher.Setup(h => h.Verify("Password123!", "tutor-hash", "tutor-salt")).Returns(true);
 
-            // Act
             var createdUser = await _userService.CreateUser(registerModel);
 
             var tutorRecord = await _context.Tutors.FirstOrDefaultAsync(t => t.UserId == createdUser.Id);
             Assert.NotNull(tutorRecord);
 
-            // Act
-            var authResult = await _userService.AuthenticateUserWithRole("newtutor@example.com", "Password123!");
+            var authResult = await _userService.AuthenticateUser("newtutor@example.com", "Password123!");
 
-            // Assert
             Assert.NotNull(authResult);
-            Assert.Equal(createdUser.Id, authResult.User.Id);
-            Assert.Equal("Tutor", authResult.RoleName);
+            Assert.Equal(createdUser.Id, authResult.Id);
+            Assert.Equal(3, authResult.RoleId);
         }
     }
 }

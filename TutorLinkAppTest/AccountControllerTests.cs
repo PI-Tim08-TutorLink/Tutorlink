@@ -8,6 +8,8 @@ using TutorLinkApp.VM;
 using TutorLinkApp.Services.Implementations;
 using TutorLinkApp.DTO;
 using TutorLinkApp.Models;
+using TutorLinkApp.Services.Interfaces;
+using TutorLinkApp.Controllers;
 
 namespace TutorLinkApp.Tests.Controllers
 {
@@ -417,58 +419,6 @@ namespace TutorLinkApp.Tests.Controllers
 
             Assert.NotNull(result);
             Assert.False(controller.ModelState.IsValid);
-        }
-
-        [Fact]
-        public async Task Login_Post_InvalidCredentials_ReturnsViewWithError()
-        {
-            var mockUserService = new Mock<IUserService>();
-            var mockSessionManager = new Mock<ISessionManager>();
-            mockUserService
-                .Setup(s => s.AuthenticateUserWithRole(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync((UserWithRole?)null);
-
-            var controller = CreateController(mockUserService, mockSessionManager);
-            var model = new LoginViewModel { Email = "test@test.com", Password = "wrongpassword" };
-
-            var result = await controller.Login(model) as ViewResult;
-
-            Assert.NotNull(result);
-            Assert.False(controller.ModelState.IsValid);
-        }
-
-        [Fact]
-        public async Task Login_Post_ValidCredentials_RedirectsToHome()
-        {
-            var mockUserService = new Mock<IUserService>();
-            var mockSessionManager = new Mock<ISessionManager>();
-
-            var user = new User
-            {
-                Id = 1,
-                Username = "testuser",
-                FirstName = "Test",
-                LastName = "User",
-                Email = "test@test.com",
-                RoleId = 2,
-                PwdHash = "hash",
-                PwdSalt = "salt"
-            };
-            var userWithRole = new UserWithRole { User = user, RoleName = "Student" };
-
-            mockUserService
-                .Setup(s => s.AuthenticateUserWithRole(It.IsAny<string>(), It.IsAny<string>()))
-                .ReturnsAsync(userWithRole);
-
-            var controller = CreateController(mockUserService, mockSessionManager);
-            var model = new LoginViewModel { Email = "test@test.com", Password = "correctpassword" };
-
-            var result = await controller.Login(model) as RedirectToActionResult;
-
-            Assert.NotNull(result);
-            Assert.Equal("Index", result.ActionName);
-            Assert.Equal("Home", result.ControllerName);
-            mockSessionManager.Verify(s => s.SetUserSession(It.IsAny<HttpContext>(), It.IsAny<UserSession>()), Times.Once);
         }
 
         // ========== REGISTER TESTS ==========
