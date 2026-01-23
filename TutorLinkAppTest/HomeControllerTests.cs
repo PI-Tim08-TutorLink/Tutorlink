@@ -11,7 +11,7 @@ namespace TutorLinkApp.Tests.Controllers
 {
     public class HomeControllerTests
     {
-        private HomeController CreateController()
+        private static HomeController CreateController()
         {
             var mockLogger = new Mock<ILogger<HomeController>>();
             return new HomeController(mockLogger.Object);
@@ -204,7 +204,6 @@ namespace TutorLinkApp.Tests.Controllers
         public void Error_HasCorrectResponseCacheAttribute()
         {
             // Arrange
-            var controller = CreateController();
             var methodInfo = typeof(HomeController).GetMethod("Error");
 
             // Act

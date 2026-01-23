@@ -4,60 +4,63 @@ using TutorLinkApp.Services.Email;
 using TutorLinkApp.Services.Implementations;
 using TutorLinkApp.Services.Interfaces;
 
-public class ResetPasswordFacade : IResetPasswordFacade
+namespace TutorLinkApp.Services.Facades
 {
-    private readonly TutorLinkContext _context;
-    private readonly IPasswordHasher _hasher;
-    private readonly EmailService _emailService;
-
-    public ResetPasswordFacade(
-        TutorLinkContext context,
-        IPasswordHasher hasher,
-        EmailService emailService)
+    public class ResetPasswordFacade : IResetPasswordFacade
     {
-        _context = context;
-        _hasher = hasher;
-        _emailService = emailService;
-    }
+        private readonly TutorLinkContext _context;
+        private readonly IPasswordHasher _hasher;
+        private readonly EmailService _emailService;
 
-    public async Task<string?> SendResetLink(string email, string resetUrlBase)
-    {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u => u.Email == email && u.DeletedAt == null);
+        public ResetPasswordFacade(
+            TutorLinkContext context,
+            IPasswordHasher hasher,
+            EmailService emailService)
+        {
+            _context = context;
+            _hasher = hasher;
+            _emailService = emailService;
+        }
 
-        if (user == null)
-            return null;
+        public async Task<string?> SendResetLink(string email, string resetUrlBase)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == email && u.DeletedAt == null);
 
-        user.ResetToken = Guid.NewGuid().ToString();
-        user.ResetTokenExpiry = DateTime.Now.AddMinutes(30);
+            if (user == null)
+                return null;
 
-        await _context.SaveChangesAsync();
+            user.ResetToken = Guid.NewGuid().ToString();
+            user.ResetTokenExpiry = DateTime.Now.AddMinutes(30);
 
-        var link = $"{resetUrlBase}?token={user.ResetToken}";
+            await _context.SaveChangesAsync();
 
-        await _emailService.SendResetPasswordEmail(email, link);
+            var link = $"{resetUrlBase}?token={user.ResetToken}";
 
-        return link;
-    }
+            await _emailService.SendResetPasswordEmail(email, link);
 
-    public async Task<bool> ResetPassword(string token, string newPassword)
-    {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(u =>
-                u.ResetToken == token &&
-                u.ResetTokenExpiry > DateTime.Now);
+            return link;
+        }
 
-        if (user == null) return false;
+        public async Task<bool> ResetPassword(string token, string newPassword)
+        {
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u =>
+                    u.ResetToken == token &&
+                    u.ResetTokenExpiry > DateTime.Now);
 
-        var salt = _hasher.GenerateSalt();
-        var hash = _hasher.Hash(newPassword, salt);
+            if (user == null) return false;
 
-        user.PwdSalt = salt;
-        user.PwdHash = hash;
-        user.ResetToken = null;
-        user.ResetTokenExpiry = null;
+            var salt = _hasher.GenerateSalt();
+            var hash = _hasher.Hash(newPassword, salt);
 
-        await _context.SaveChangesAsync();
-        return true;
+            user.PwdSalt = salt;
+            user.PwdHash = hash;
+            user.ResetToken = null;
+            user.ResetTokenExpiry = null;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }

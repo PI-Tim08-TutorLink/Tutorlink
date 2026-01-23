@@ -16,7 +16,7 @@ namespace TutorLinkApp.Tests.Services
             _sessionManager = new SessionManager();
         }
 
-        private HttpContext CreateMockHttpContext()
+        private static HttpContext CreateMockHttpContext()
         {
             var httpContext = new DefaultHttpContext();
             httpContext.Session = new TestSession();
@@ -227,8 +227,11 @@ namespace TutorLinkApp.Tests.Services
             // Arrange
             var httpContext = CreateMockHttpContext();
 
-            // Act & Assert
-            _sessionManager.ClearSession(httpContext);
+            // Act
+            var exception = Record.Exception(() => _sessionManager.ClearSession(httpContext));
+
+            // Assert
+            Assert.Null(exception);
         }
 
         [Fact]

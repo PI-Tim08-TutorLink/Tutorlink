@@ -167,10 +167,10 @@ namespace TutorLinkAppTest.Integration
                 ConfirmPassword = "Password123!",
                 Role = "InvalidRole"
             };
-
+            
             var result = await controller.CreateUser(model);
 
-            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
             Assert.False(controller.ModelState.IsValid);
             Assert.True(controller.ModelState.ContainsKey("Role"));
         }
@@ -186,7 +186,7 @@ namespace TutorLinkAppTest.Integration
 
             var result = await controller.Dashboard();
 
-            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
             Assert.Equal(10, controller.ViewBag.TotalUsers);
             Assert.Equal(3, controller.ViewBag.TotalTutors);
             Assert.Equal(7, controller.ViewBag.TotalStudents);

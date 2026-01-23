@@ -7,10 +7,11 @@ using TutorLinkApp.Services.Email;
 using TutorLinkApp.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
+using TutorLinkApp.Services.Facades;
 
 namespace TutorLinkApp.Tests.Services
 {
-    public class ResetPasswordFacadeTests : IDisposable
+    public sealed class ResetPasswordFacadeTests : IDisposable
     {
         private readonly TutorLinkContext _context;
         private readonly Mock<IPasswordHasher> _mockHasher;
@@ -235,7 +236,7 @@ namespace TutorLinkApp.Tests.Services
             var resetUrlBase = "https://localhost:7142/Account/ResetPassword";
 
             // Act
-            var result = await _facade.SendResetLink(user.Email, resetUrlBase);
+            await _facade.SendResetLink(user.Email, resetUrlBase);
 
             // Assert
             var updatedUser = await _context.Users.FindAsync(user.Id);
@@ -460,7 +461,7 @@ namespace TutorLinkApp.Tests.Services
             _mockHasher.Setup(h => h.Hash(It.IsAny<string>(), It.IsAny<string>())).Returns("newhash");
 
             // Act
-            var result = await _facade.ResetPassword(token, "NewPassword123!");
+            await _facade.ResetPassword(token, "NewPassword123!");
 
             // Assert - Token should be cleared even if successful
             var updatedUser = await _context.Users.FindAsync(user.Id);
