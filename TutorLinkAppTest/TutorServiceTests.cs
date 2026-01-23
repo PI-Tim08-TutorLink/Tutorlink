@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TutorLinkApp.Models;
 using TutorLinkApp.Services.Implementations;
@@ -14,6 +11,7 @@ namespace TutorLinkAppTest
     {
         private readonly TutorLinkContext _context;
         private readonly TutorService _tutorService;
+        private bool _disposed = false;
 
         public TutorServiceTests()
         {
@@ -27,7 +25,6 @@ namespace TutorLinkAppTest
             SeedTestData();
         }
 
-        // helper metode za kreiranje usera i tutor-a
         private User CreateUser(
             int id,
             string firstName = "Test",
@@ -52,48 +49,84 @@ namespace TutorLinkAppTest
             };
         }
 
-        private Tutor CreateTutor(
-            int id,
-            User user,
-            string skill = "Math",
-            decimal? hourlyRate = 50,
-            decimal? averageRating = 4.5m,
-            int totalReviews = 10,
-            string? bio = null,
-            string availability = "Flexible",
-            DateTime? deletedAt = null)
+        private class TutorConfig
         {
-            bio ??= $"{user.FirstName}'s bio";
+            public string Skill { get; set; } = "Math";
+            public decimal? HourlyRate { get; set; } = 50;
+            public decimal? AverageRating { get; set; } = 4.5m;
+            public int TotalReviews { get; set; } = 10;
+            public string? Bio { get; set; }
+            public string Availability { get; set; } = "Flexible";
+            public DateTime? DeletedAt { get; set; }
+        }
+
+        private Tutor CreateTutor(int id, User user, TutorConfig? config = null)
+        {
+            config ??= new TutorConfig();
+            var bio = config.Bio ?? $"{user.FirstName}'s bio";
 
             return new Tutor
             {
                 Id = id,
                 UserId = user.Id,
                 User = user,
+                Skill = config.Skill,
+                HourlyRate = config.HourlyRate,
+                AverageRating = config.AverageRating,
+                TotalReviews = config.TotalReviews,
+                Bio = bio,
+                Availability = config.Availability,
+                DeletedAt = config.DeletedAt
+            };
+        }
+
+        private Tutor CreateTutor(
+            int id,
+            User user,
+            string skill,
+            decimal? hourlyRate = 50,
+            decimal? averageRating = 4.5m,
+            int totalReviews = 10,
+            string? bio = null)
+        {
+            return CreateTutor(id, user, new TutorConfig
+            {
                 Skill = skill,
                 HourlyRate = hourlyRate,
                 AverageRating = averageRating,
                 TotalReviews = totalReviews,
-                Bio = bio,
-                Availability = availability,
-                DeletedAt = deletedAt
-            };
+                Bio = bio
+            });
         }
 
-        private void AddUserAndTutor(User user, Tutor tutor)
+        private async Task AddUserAndTutorAsync(User user, Tutor tutor)
         {
             _context.Users.Add(user);
             _context.Tutors.Add(tutor);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         private void SeedTestData()
         {
             var user1 = CreateUser(1, "John", "Doe");
-            var tutor1 = CreateTutor(1, user1, "Math, Physics", 50, 4.5m, 10, availability: "Monday-Friday");
+            var tutor1 = CreateTutor(1, user1, new TutorConfig
+            {
+                Skill = "Math, Physics",
+                HourlyRate = 50,
+                AverageRating = 4.5m,
+                TotalReviews = 10,
+                Availability = "Monday-Friday"
+            });
 
             var user2 = CreateUser(2, "Jane", "Smith");
-            var tutor2 = CreateTutor(2, user2, "English, History", 40, 4.8m, 15, availability: "Weekends");
+            var tutor2 = CreateTutor(2, user2, new TutorConfig
+            {
+                Skill = "English, History",
+                HourlyRate = 40,
+                AverageRating = 4.8m,
+                TotalReviews = 15,
+                Availability = "Weekends"
+            });
 
             _context.Users.AddRange(user1, user2);
             _context.Tutors.AddRange(tutor1, tutor2);
@@ -102,8 +135,21 @@ namespace TutorLinkAppTest
 
         public void Dispose()
         {
-            _context.Database.EnsureDeleted();
-            _context.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _context.Database.EnsureDeleted();
+                    _context.Dispose();
+                }
+                _disposed = true;
+            }
         }
 
         [Fact]
@@ -248,9 +294,14 @@ namespace TutorLinkAppTest
         public async Task SearchTutors_ExcludesDeletedTutors()
         {
             var deletedUser = CreateUser(3, "Deleted", "User");
-            var deletedTutor = CreateTutor(3, deletedUser, "Chemistry", 60, deletedAt: DateTime.UtcNow);
+            var deletedTutor = CreateTutor(3, deletedUser, new TutorConfig
+            {
+                Skill = "Chemistry",
+                HourlyRate = 60,
+                DeletedAt = DateTime.UtcNow
+            });
 
-            AddUserAndTutor(deletedUser, deletedTutor);
+            await AddUserAndTutorAsync(deletedUser, deletedTutor);
 
             var filters = new TutorSearchViewModel();
 
@@ -300,7 +351,7 @@ namespace TutorLinkAppTest
 
             var result = await _tutorService.SearchTutors(filters);
 
-            Assert.Equal(2, result.Tutors.Count); // Vraća sve tutore
+            Assert.Equal(2, result.Tutors.Count);
         }
 
         [Fact]
@@ -353,8 +404,12 @@ namespace TutorLinkAppTest
         public async Task SearchTutors_TutorWithNullHourlyRate_ExcludedFromPriceFilter()
         {
             var user = CreateUser(10, "No", "Price");
-            var tutor = CreateTutor(10, user, "Math", hourlyRate: null);
-            AddUserAndTutor(user, tutor);
+            var tutor = CreateTutor(10, user, new TutorConfig
+            {
+                Skill = "Math",
+                HourlyRate = null
+            });
+            await AddUserAndTutorAsync(user, tutor);
 
             var filters = new TutorSearchViewModel { MinPrice = 10 };
 
@@ -367,8 +422,12 @@ namespace TutorLinkAppTest
         public async Task SearchTutors_TutorWithNullRating_ExcludedFromRatingFilter()
         {
             var user = CreateUser(11, "No", "Rating");
-            var tutor = CreateTutor(11, user, "Math", averageRating: null);
-            AddUserAndTutor(user, tutor);
+            var tutor = CreateTutor(11, user, new TutorConfig
+            {
+                Skill = "Math",
+                AverageRating = null
+            });
+            await AddUserAndTutorAsync(user, tutor);
 
             var filters = new TutorSearchViewModel { MinRating = 4.0m };
 
@@ -381,8 +440,12 @@ namespace TutorLinkAppTest
         public async Task SearchTutors_TutorWithNullHourlyRate_IncludedWithoutPriceFilter()
         {
             var user = CreateUser(12, "Free", "Tutor");
-            var tutor = CreateTutor(12, user, "Math", hourlyRate: null);
-            AddUserAndTutor(user, tutor);
+            var tutor = CreateTutor(12, user, new TutorConfig
+            {
+                Skill = "Math",
+                HourlyRate = null
+            });
+            await AddUserAndTutorAsync(user, tutor);
 
             var filters = new TutorSearchViewModel();
 
@@ -465,7 +528,7 @@ namespace TutorLinkAppTest
             var user = CreateUser(3, "Test", "User");
             var tutor = CreateTutor(3, user, "  Biology  , Chemistry  ", 30);
 
-            AddUserAndTutor(user, tutor);
+            await AddUserAndTutorAsync(user, tutor);
 
             var skills = await _tutorService.GetAllSkills();
 
@@ -478,9 +541,14 @@ namespace TutorLinkAppTest
         public async Task GetAllSkills_ExcludesDeletedTutors()
         {
             var deletedUser = CreateUser(4, "Deleted", "Tutor", deletedAt: DateTime.UtcNow);
-            var deletedTutor = CreateTutor(4, deletedUser, "DeletedSkill", 100, deletedAt: DateTime.UtcNow);
+            var deletedTutor = CreateTutor(4, deletedUser, new TutorConfig
+            {
+                Skill = "DeletedSkill",
+                HourlyRate = 100,
+                DeletedAt = DateTime.UtcNow
+            });
 
-            AddUserAndTutor(deletedUser, deletedTutor);
+            await AddUserAndTutorAsync(deletedUser, deletedTutor);
 
             var skills = await _tutorService.GetAllSkills();
 
@@ -492,13 +560,12 @@ namespace TutorLinkAppTest
         {
             var user = CreateUser(13, "Empty", "Skill");
             var tutor = CreateTutor(13, user, "Math, , English", 30);
-            AddUserAndTutor(user, tutor);
+            await AddUserAndTutorAsync(user, tutor);
 
             var skills = await _tutorService.GetAllSkills();
 
             Assert.Contains("Math", skills);
             Assert.Contains("English", skills);
-            // Provjerava da nema praznih string-ova
             Assert.DoesNotContain("", skills);
         }
 
@@ -506,14 +573,17 @@ namespace TutorLinkAppTest
         public async Task GetAllSkills_TutorWithEmptySkillString_ExcludesFromResults()
         {
             var user = CreateUser(14, "Empty", "Skill");
-            var tutor = CreateTutor(14, user, skill: "", hourlyRate: 30);
+            var tutor = CreateTutor(14, user, new TutorConfig
+            {
+                Skill = "",
+                HourlyRate = 30
+            });
             _context.Users.Add(user);
             _context.Tutors.Add(tutor);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var skills = await _tutorService.GetAllSkills();
 
-            // Ne bi trebalo sadržavati prazne skillove
             Assert.NotNull(skills);
             Assert.DoesNotContain("", skills);
         }
@@ -545,9 +615,14 @@ namespace TutorLinkAppTest
         public async Task GetTutorDetails_DeletedTutor_ReturnsNull()
         {
             var deletedUser = CreateUser(5, "Deleted", "User");
-            var deletedTutor = CreateTutor(5, deletedUser, "Test", 50, deletedAt: DateTime.UtcNow);
+            var deletedTutor = CreateTutor(5, deletedUser, new TutorConfig
+            {
+                Skill = "Test",
+                HourlyRate = 50,
+                DeletedAt = DateTime.UtcNow
+            });
 
-            AddUserAndTutor(deletedUser, deletedTutor);
+            await AddUserAndTutorAsync(deletedUser, deletedTutor);
 
             var result = await _tutorService.GetTutorDetails(5);
 

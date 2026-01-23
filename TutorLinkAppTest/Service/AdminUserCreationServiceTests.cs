@@ -17,20 +17,17 @@ namespace TutorLinkAppTest.Service
         [Fact]
         public async Task CreateUser_ShouldInsertUserIntoDatabase()
         {
-            // ARRANGE - InMemory DbContext
+            // ARRANGE
             var options = new DbContextOptionsBuilder<TutorLinkContext>()
                 .UseInMemoryDatabase("CreateUserDb")
                 .Options;
 
             using var context = new TutorLinkContext(options);
 
-            // Mock PasswordHasher (da ne ovisis o stvarnoj implementaciji)
             var hasherMock = new Mock<IPasswordHasher>();
             hasherMock.Setup(h => h.GenerateSalt()).Returns("salt");
             hasherMock.Setup(h => h.Hash(It.IsAny<string>(), "salt")).Returns("hash");
 
-            // ✅ OVO je ključno: instanciraj servis onako kako ga ti imaš
-            // Ako tvoj konstruktor izgleda: AdminUserCreationService(TutorLinkContext ctx, IPasswordHasher hasher)
             var service = new AdminUserCreationService(context, hasherMock.Object);
 
             var model = new RegisterViewModel
@@ -44,18 +41,17 @@ namespace TutorLinkAppTest.Service
                 Role = "Admin"
             };
 
-            int roleId = 1; // Admin
+            int roleId = 1;
 
             // ACT
             await service.CreateUser(model, roleId);
 
-            // ASSERT - provjeri da je user upisan
+            // ASSERT
             var created = await context.Users.FirstOrDefaultAsync(u => u.Email == "admin@test.com");
             Assert.NotNull(created);
             Assert.Equal("admin", created!.Username);
             Assert.Equal(roleId, created.RoleId);
 
-            // i hash/salt
             Assert.Equal("hash", created.PwdHash);
             Assert.Equal("salt", created.PwdSalt);
         }

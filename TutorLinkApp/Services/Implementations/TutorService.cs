@@ -7,14 +7,14 @@ namespace TutorLinkApp.Services.Implementations
 {
     public class TutorService : ITutorService
     {
-        ILogger logger = AppLogger.GetInstance();
+        readonly ILogger logger = AppLogger.GetInstance();
         private readonly TutorLinkContext _context;
         public TutorService(TutorLinkContext context)
         {
             _context = context;
         }
 
-        private ITutorSortStrategy GetSortStrategy(string sortBy)
+        private static ITutorSortStrategy GetSortStrategy(string sortBy)
         {
             return sortBy switch
             {
@@ -22,7 +22,7 @@ namespace TutorLinkApp.Services.Implementations
                 "price_asc" => new SortByPriceAscStrategy(),
                 "price_desc" => new SortByPriceDescStrategy(),
                 "newest" => new SortByNewestStrategy(),
-                _ => new SortByRatingStrategy(), // Default: best rated first
+                _ => new SortByRatingStrategy(),
             };
         }
 

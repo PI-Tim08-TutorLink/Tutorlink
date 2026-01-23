@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TutorLinkApp.Models;
 using TutorLinkApp.Services.Implementations;
 
@@ -20,7 +18,7 @@ namespace TutorLinkAppTest
                     HourlyRate = 50,
                     AverageRating = 4.5m,
                     TotalReviews = 10,
-                    CreatedAt = new DateTime(2024, 1, 1)
+                    CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc)
                 },
                 new Tutor
                 {
@@ -28,7 +26,7 @@ namespace TutorLinkAppTest
                     HourlyRate = 60,
                     AverageRating = 4.8m,
                     TotalReviews = 20,
-                    CreatedAt = new DateTime(2024, 6, 1)
+                    CreatedAt = new DateTime(2024, 6, 1, 0, 0, 0, DateTimeKind.Utc)
                 },
                 new Tutor
                 {
@@ -36,7 +34,7 @@ namespace TutorLinkAppTest
                     HourlyRate = 70,
                     AverageRating = 4.2m,
                     TotalReviews = 5,
-                    CreatedAt = new DateTime(2024, 12, 1)
+                    CreatedAt = new DateTime(2024, 12, 1, 0, 0, 0, DateTimeKind.Utc)
                 },
                 new Tutor
                 {
@@ -44,7 +42,7 @@ namespace TutorLinkAppTest
                     HourlyRate = null,
                     AverageRating = null,
                     TotalReviews = 0,
-                    CreatedAt = new DateTime(2024, 3, 1)
+                    CreatedAt = new DateTime(2024, 3, 1, 0, 0, 0, DateTimeKind.Utc)
                 }
             };
         }
@@ -294,16 +292,16 @@ namespace TutorLinkAppTest
             var result = strategy.ApplySort(query).ToList();
 
             Assert.Equal(4, result.Count);
-            Assert.Equal(new DateTime(2024, 12, 1), result[0].CreatedAt);
-            Assert.Equal(new DateTime(2024, 6, 1), result[1].CreatedAt);
-            Assert.Equal(new DateTime(2024, 3, 1), result[2].CreatedAt);
-            Assert.Equal(new DateTime(2024, 1, 1), result[3].CreatedAt);
+            Assert.Equal(new DateTime(2024, 12, 1, 0, 0, 0, DateTimeKind.Utc), result[0].CreatedAt);
+            Assert.Equal(new DateTime(2024, 6, 1, 0, 0, 0, DateTimeKind.Utc), result[1].CreatedAt);
+            Assert.Equal(new DateTime(2024, 3, 1, 0, 0, 0, DateTimeKind.Utc), result[2].CreatedAt);
+            Assert.Equal(new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc), result[3].CreatedAt);
         }
 
         [Fact]
         public void SortByNewestStrategy_SameDate_MaintainsOrder()
         {
-            var sameDate = new DateTime(2024, 6, 1);
+            var sameDate = new DateTime(2024, 6, 1, 0, 0, 0, DateTimeKind.Utc);
             var tutors = new List<Tutor>
             {
                 new Tutor { Id = 1, CreatedAt = sameDate },
@@ -324,9 +322,9 @@ namespace TutorLinkAppTest
         {
             var tutors = new List<Tutor>
             {
-                new Tutor { Id = 1, CreatedAt = new DateTime(2024, 6, 1, 10, 0, 0) },
-                new Tutor { Id = 2, CreatedAt = new DateTime(2024, 6, 1, 14, 30, 0) },
-                new Tutor { Id = 3, CreatedAt = new DateTime(2024, 6, 1, 9, 15, 0) }
+                new Tutor { Id = 1, CreatedAt = new DateTime(2024, 6, 1, 10, 0, 0, DateTimeKind.Utc) },
+                new Tutor { Id = 2, CreatedAt = new DateTime(2024, 6, 1, 14, 30, 0, DateTimeKind.Utc) },
+                new Tutor { Id = 3, CreatedAt = new DateTime(2024, 6, 1, 9, 15, 0, DateTimeKind.Utc) }
             };
             var query = tutors.AsQueryable();
             var strategy = new SortByNewestStrategy();
@@ -355,7 +353,7 @@ namespace TutorLinkAppTest
         {
             var tutors = new List<Tutor>
             {
-                new Tutor { Id = 1, CreatedAt = DateTime.Now }
+                new Tutor { Id = 1, CreatedAt = DateTime.UtcNow }
             };
             var query = tutors.AsQueryable();
             var strategy = new SortByNewestStrategy();

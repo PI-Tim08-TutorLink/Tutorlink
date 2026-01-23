@@ -6,7 +6,6 @@ using TutorLinkApp.Services.Implementations;
 using TutorLinkApp.VM;
 using System;
 using System.Threading.Tasks;
-using System.Linq;
 using TutorLinkApp.Services.Interfaces;
 
 namespace TutorLinkApp.Tests.Services
@@ -17,6 +16,8 @@ namespace TutorLinkApp.Tests.Services
         private readonly Mock<IPasswordHasher> _mockHasher;
         private readonly UserService _userService;
 
+        private bool _disposed;
+
         public UserServiceTests()
         {
             var options = new DbContextOptionsBuilder<TutorLinkContext>()
@@ -24,6 +25,7 @@ namespace TutorLinkApp.Tests.Services
                 .Options;
 
             _context = new TutorLinkContext(options);
+
             _mockHasher = new Mock<IPasswordHasher>();
             _mockHasher.Setup(h => h.GenerateSalt()).Returns("test-salt");
             _mockHasher.Setup(h => h.Hash(It.IsAny<string>(), It.IsAny<string>())).Returns("test-hash");
@@ -44,13 +46,27 @@ namespace TutorLinkApp.Tests.Services
             _context.SaveChanges();
         }
 
-        public void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            _context.Database.EnsureDeleted();
-            _context.Dispose();
+            if (_disposed)
+                return;
+
+            if (disposing)
+            {
+                _context.Database.EnsureDeleted();
+                _context.Dispose();
+            }
+
+            _disposed = true;
         }
 
-        // ========== IS EMAIL TAKEN TESTS ==========
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // ================= IS EMAIL TAKEN TESTS =================
 
         [Fact]
         public async Task IsEmailTaken_EmailExists_ReturnsTrue()
@@ -81,7 +97,7 @@ namespace TutorLinkApp.Tests.Services
             Assert.False(result);
         }
 
-        // ========== IS USERNAME TAKEN TESTS ==========
+        // ================= IS USERNAME TAKEN TESTS =================
 
         [Fact]
         public async Task IsUsernameTaken_UsernameExists_ReturnsTrue()
@@ -112,7 +128,7 @@ namespace TutorLinkApp.Tests.Services
             Assert.False(result);
         }
 
-        // ========== CREATE USER TESTS ==========
+        // ================= CREATE USER TESTS =================
 
         [Fact]
         public async Task CreateUser_AsStudent_CreatesUserWithRoleId2()
@@ -304,7 +320,7 @@ namespace TutorLinkApp.Tests.Services
             Assert.Equal(2, result.RoleId);
         }
 
-        // ========== AUTHENTICATE USER TESTS ==========
+        // ================= AUTHENTICATE USER TESTS =================
 
         [Fact]
         public async Task AuthenticateUser_ValidCredentials_ReturnsUser()
@@ -389,7 +405,7 @@ namespace TutorLinkApp.Tests.Services
             Assert.Null(result);
         }
 
-        // ========== GET USER BY ID TESTS ==========
+        // ================= GET USER BY ID TESTS =================
 
         [Fact]
         public async Task GetUserById_UserExists_ReturnsUser()
@@ -445,7 +461,7 @@ namespace TutorLinkApp.Tests.Services
             Assert.Null(result);
         }
 
-        // ========== INTEGRATION TESTS ==========
+        // ================= INTEGRATION TESTS =================
 
         [Fact]
         public async Task FullWorkflow_CreateStudentAndAuthenticate_WorksCorrectly()
