@@ -26,8 +26,8 @@ public class PasswordHasher : IPasswordHasher
         return Convert.ToBase64String(hash);
     }
 
-    public bool Verify(string password, string storedHash, string storedSalt)
+    public bool Verify(string password, string hash, string salt)
     {
-        return Hash(password, storedSalt) == storedHash;
+        return Hash(password, salt) == hash;
     }
 }

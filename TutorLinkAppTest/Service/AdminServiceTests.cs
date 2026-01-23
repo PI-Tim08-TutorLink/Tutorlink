@@ -19,7 +19,7 @@ namespace TutorLinkAppTest.Service
     {
         public class AdminServiceTests
         {
-            private TutorLinkContext CreateContext(string dbName)
+            private static TutorLinkContext CreateContext(string dbName)
             {
                 var options = new DbContextOptionsBuilder<TutorLinkContext>()
                     .UseInMemoryDatabase(databaseName: dbName)
@@ -343,8 +343,12 @@ namespace TutorLinkAppTest.Service
                 var hasher = new PasswordHasher();
                 var svc = new AdminService(ctx, hasher);
 
-                // Should not throw
+                var countBefore = await ctx.Users.CountAsync();
+
                 await svc.SoftDeleteUser(999);
+
+                var countAfter = await ctx.Users.CountAsync();
+                Assert.Equal(countBefore, countAfter);
             }
 
             // ========== GetTutorsByUserId ==========

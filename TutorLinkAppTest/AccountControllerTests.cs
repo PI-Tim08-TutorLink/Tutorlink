@@ -78,7 +78,7 @@ namespace TutorLinkApp.Tests.Controllers
         }
 
         [Fact]
-        public async void ForgotPassword_Post_EmailExists_SetsSuccessTempData()
+        public async Task ForgotPassword_Post_EmailExists_SetsSuccessTempData()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -108,7 +108,7 @@ namespace TutorLinkApp.Tests.Controllers
         }
 
         [Fact]
-        public async void ForgotPassword_Post_EmailDoesNotExist_SetsErrorTempData()
+        public async Task ForgotPassword_Post_EmailDoesNotExist_SetsErrorTempData()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -138,7 +138,7 @@ namespace TutorLinkApp.Tests.Controllers
         }
 
         [Fact]
-        public async void ForgotPassword_Post_InvalidModelState_ReturnsView()
+        public async Task ForgotPassword_Post_InvalidModelState_ReturnsView()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -242,7 +242,7 @@ namespace TutorLinkApp.Tests.Controllers
         }
 
         [Fact]
-        public async void ResetPassword_Post_ValidToken_RedirectsToLogin()
+        public async Task ResetPassword_Post_ValidToken_RedirectsToLogin()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -276,7 +276,7 @@ namespace TutorLinkApp.Tests.Controllers
         }
 
         [Fact]
-        public async void ResetPassword_Post_InvalidToken_ReturnsViewWithError()
+        public async Task ResetPassword_Post_InvalidToken_ReturnsViewWithError()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -310,7 +310,7 @@ namespace TutorLinkApp.Tests.Controllers
         }
 
         [Fact]
-        public async void ResetPassword_Post_InvalidModelState_ReturnsView()
+        public async Task ResetPassword_Post_InvalidModelState_ReturnsView()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -341,7 +341,7 @@ namespace TutorLinkApp.Tests.Controllers
         }
 
         [Fact]
-        public async void ResetPassword_Post_PasswordsDoNotMatch_ValidationFails()
+        public async Task ResetPassword_Post_PasswordsDoNotMatch_ValidationFails()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();
@@ -372,7 +372,7 @@ namespace TutorLinkApp.Tests.Controllers
         }
 
         [Fact]
-        public async void ForgotPassword_Post_FacadeThrowsException_PropagatesException()
+        public async Task ForgotPassword_Post_FacadeThrowsException_PropagatesException()
         {
             // Arrange
             var mockUserService = new Mock<IUserService>();

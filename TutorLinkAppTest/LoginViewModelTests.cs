@@ -10,7 +10,7 @@ namespace TutorLinkAppTest
 {
     public class LoginViewModelTests
     {
-        private List<ValidationResult> ValidateModel(LoginViewModel model)
+        private static List<ValidationResult> ValidateModel(LoginViewModel model)
         {
             var validationResults = new List<ValidationResult>();
             var validationContext = new ValidationContext(model);

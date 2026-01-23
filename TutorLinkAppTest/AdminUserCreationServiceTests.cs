@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace TutorLinkApp.Tests.Services
 {
-    public class AdminUserCreationServiceTests : IDisposable
+    public sealed class AdminUserCreationServiceTests : IDisposable
     {
         private readonly TutorLinkContext _context;
         private readonly Mock<IPasswordHasher> _mockHasher;
@@ -31,6 +31,8 @@ namespace TutorLinkApp.Tests.Services
 
             _service = new AdminUserCreationService(_context, _mockHasher.Object);
         }
+
+
 
         public void Dispose()
         {
@@ -191,6 +193,7 @@ namespace TutorLinkApp.Tests.Services
             }
             catch (InvalidOperationException)
             {
+                Console.WriteLine("Caught expected exception.");
             }
 
             // Assert

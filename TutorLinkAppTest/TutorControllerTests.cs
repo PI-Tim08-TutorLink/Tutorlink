@@ -29,8 +29,7 @@ namespace TutorLinkAppTest
             string? userRole = null)
         {
             var controller = new TutorController(
-                _mockTutorService.Object,
-                _mockSessionManager.Object
+                _mockTutorService.Object
             );
 
             var httpContext = new DefaultHttpContext();
@@ -391,71 +390,6 @@ namespace TutorLinkAppTest
 
             Assert.NotNull(result);
             Assert.Equal("Login", result.ActionName);
-        }
-
-        [Fact]
-        public void IsAdmin_WhenUserRoleIsAdmin_ReturnsTrue()
-        {
-            var controller = CreateController(userId: 1, userRole: "Admin");
-
-            var method = typeof(TutorController)
-                .GetMethod("IsAdmin", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            var result = (bool)method!.Invoke(controller, null)!;
-
-            Assert.True(result);
-        }
-
-        [Fact]
-        public void IsAdmin_WhenUserRoleIsStudent_ReturnsFalse()
-        {
-            var controller = CreateController(userId: 1, userRole: "Student");
-
-            var method = typeof(TutorController)
-                .GetMethod("IsAdmin", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            var result = (bool)method!.Invoke(controller, null)!;
-
-            Assert.False(result);
-        }
-
-        [Fact]
-        public void IsAdmin_WhenUserRoleIsNull_ReturnsFalse()
-        {
-            var controller = CreateController(userId: 1, userRole: null);
-
-            var method = typeof(TutorController)
-                .GetMethod("IsAdmin", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            var result = (bool)method!.Invoke(controller, null)!;
-
-            Assert.False(result);
-        }
-
-        [Fact]
-        public void IsAdmin_WhenUserRoleIsTutor_ReturnsFalse()
-        {
-            var controller = CreateController(userId: 1, userRole: "Tutor");
-
-            var method = typeof(TutorController)
-                .GetMethod("IsAdmin", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            var result = (bool)method!.Invoke(controller, null)!;
-
-            Assert.False(result);
-        }
-
-        [Fact]
-        public void IsAdmin_WhenUserRoleIsAdminWithDifferentCase_ReturnsFalse()
-        {
-            var controller = CreateController(userId: 1, userRole: "admin");
-
-            var method = typeof(TutorController)
-                .GetMethod("IsAdmin", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-
-            var result = (bool)method!.Invoke(controller, null)!;
-
-            Assert.False(result); 
         }
 
         [Fact]

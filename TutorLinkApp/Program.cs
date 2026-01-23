@@ -5,6 +5,7 @@ using TutorLinkApp.Services.Implementations;
 using TutorLinkApp.Services.Interfaces;
 using System.Security.Cryptography;
 using ILogger = TutorLinkApp.Services.Interfaces.ILogger;
+using TutorLinkApp.Services.Facades;
 
 var builder = WebApplication.CreateBuilder(args);
 
